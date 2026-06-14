@@ -134,10 +134,7 @@ export function Avatar() {
         </div>
       </div>
 
-      {/* Online indicator */}
-      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-[--bg-card] border border-[--border-subtle] text-xs text-[--text-muted]">
-        🟢 Online
-      </div>
+
     </div>
   );
 }
