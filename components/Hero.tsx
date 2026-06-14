@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowUp, Calendar, Mail, Sparkles, Briefcase, Wrench, Heart, Sun, Moon } from "lucide-react";
+import { Avatar } from "@/components/Avatar";
 
 const suggestions = [
   { icon: Briefcase, label: "Show me your best projects" },
@@ -83,18 +84,7 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="my-2"
         >
-          <div
-            className="w-28 h-28 rounded-full bg-[--bg-card] p-[3px] shadow-2xl shadow-primary-600/40"
-            style={{ animation: "glow-pulse 3s ease-in-out infinite" }}
-          >
-            <div className="w-full h-full rounded-full bg-[--bg-deep] flex items-center justify-center overflow-hidden">
-              <img
-                src="/Avatar_frames/frame_0001.webp"
-                alt="Aljon Bacani"
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
+          <Avatar />
         </motion.div>
 
         {/* Chat container */}
