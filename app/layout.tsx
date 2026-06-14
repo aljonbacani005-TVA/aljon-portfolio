@@ -1,27 +1,43 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import type { ReactNode } from "react";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
+const inter = Inter({
   variable: "--font-sans",
-  subsets: ["latin"]
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-mono",
-  subsets: ["latin"]
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Aljon Bacani | AI Automation Specialist",
-  description: "A conversational AI-native portfolio for Aljon Bacani, AI Automation Specialist in Pampanga, PH."
+  description:
+    "AI Automation Specialist based in Pampanga, Philippines. Helping businesses automate workflows, build AI chatbots, and integrate tools.",
+  keywords: [
+    "AI Automation",
+    "Zapier",
+    "Make.com",
+    "AI Chatbots",
+    "CRM Automation",
+    "Aljon Bacani",
+  ],
+  openGraph: {
+    title: "Aljon Bacani | AI Automation Specialist",
+    description:
+      "Helping businesses automate workflows, build AI chatbots, and integrate tools.",
+    type: "website",
+  },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>{children}</body>
+    <html lang="en" className={inter.variable}>
+      <body className="bg-bg-deep text-text-primary antialiased">
+        <div className="aurora" />
+        <div className="noise" />
+        {children}
+      </body>
     </html>
   );
 }
