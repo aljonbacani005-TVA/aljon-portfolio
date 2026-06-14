@@ -79,10 +79,9 @@ export function Avatar() {
       const { x, y } = smoothRef.current;
 
       // Map mouse position to frame
-      const xNorm = (x - 0.5) * 2; // -1 to 1
-      const yNorm = (y - 0.5) * 2; // -1 to 1
+      const xNorm = (x - 0.5) * 2;
+      const yNorm = (y - 0.5) * 2;
 
-      // Center mouse = middle frame, edges = extremes
       const baseFrame = 96 + xNorm * 95;
       const yOffset = yNorm * 8;
 
@@ -108,11 +107,9 @@ export function Avatar() {
 
   return (
     <div className="relative">
-      {/* Glow ring */}
       <div
-        className="w-32 h-32 rounded-full p-[3px] shadow-2xl shadow-primary-600/40"
+        className="w-32 h-32 rounded-full p-[3px] shadow-lg shadow-primary-600/30"
         style={{
-          animation: "glow-pulse 3s ease-in-out infinite",
           background: "linear-gradient(135deg, #2563EB, #38BDF8, #2563EB)",
         }}
       >
@@ -120,15 +117,12 @@ export function Avatar() {
           <img
             src={framePath(displayFrame)}
             alt="Aljon Bacani"
-            className={`w-full h-full object-cover select-none transition-opacity duration-500 ${
-              loaded ? "opacity-100" : "opacity-0"
-            }`}
+            className="w-full h-full object-cover select-none"
+            style={{ opacity: loaded ? 1 : 0 }}
             draggable={false}
           />
         </div>
       </div>
-
-
     </div>
   );
 }
