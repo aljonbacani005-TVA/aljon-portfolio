@@ -1,4 +1,4 @@
-import { createOpenAI } from "@ai-sdk/openai";
+import { groq } from "@ai-sdk/groq";
 import { streamText } from "ai";
 import { SYSTEM_PROMPT } from "@/lib/prompt";
 
@@ -16,21 +16,15 @@ export async function POST(req: Request) {
     return new Response("Missing messages", { status: 400 });
   }
 
-  const apiKey = process.env.MIMO_API_KEY;
-  if (!apiKey) {
+  if (!process.env.GROQ_API_KEY) {
     return new Response(
-      "API key not configured. Add MIMO_API_KEY to .env.local",
+      "API key not configured. Add GROQ_API_KEY to .env.local",
       { status: 500 }
     );
   }
 
-  const mimo = createOpenAI({
-    baseURL: "https://token-plan-sgp.xiaomimimo.com/v1",
-    apiKey,
-  });
-
   const result = streamText({
-    model: mimo("mimo-v2.5"),
+    model: groq("llama-3.3-70b-versatile"),
     system: SYSTEM_PROMPT,
     messages,
     temperature: 0.8,
