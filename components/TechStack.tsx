@@ -1,20 +1,32 @@
 "use client";
 
 import { motion } from "framer-motion";
+import {
+  SiOpenai,
+  SiZapier,
+  SiAirtable,
+  SiNotion,
+  SiAsana,
+  SiHubspot,
+  SiSlack,
+  SiGoogle,
+  SiStripe,
+} from "react-icons/si";
+import { Bot, Workflow, Box } from "lucide-react";
 
 const techStack = [
-  { name: "OpenAI", color: "#10B981" },
-  { name: "Claude", color: "#D97706" },
-  { name: "Zapier", color: "#FF4F00" },
-  { name: "Make", color: "#6D28D9" },
-  { name: "n8n", color: "#EA580C" },
-  { name: "Airtable", color: "#F59E0B" },
-  { name: "Notion", color: "#FFFFFF" },
-  { name: "Asana", color: "#F06A6A" },
-  { name: "HubSpot", color: "#FF7A59" },
-  { name: "Slack", color: "#E01E5A" },
-  { name: "Google", color: "#4285F4" },
-  { name: "Stripe", color: "#635BFF" },
+  { name: "OpenAI", icon: SiOpenai, color: "#10B981" },
+  { name: "Claude", icon: Bot, color: "#D97706" },
+  { name: "Zapier", icon: SiZapier, color: "#FF4F00" },
+  { name: "Make", icon: Workflow, color: "#6D28D9" },
+  { name: "n8n", icon: Box, color: "#EA580C" },
+  { name: "Airtable", icon: SiAirtable, color: "#F59E0B" },
+  { name: "Notion", icon: SiNotion, color: "#FFFFFF" },
+  { name: "Asana", icon: SiAsana, color: "#F06A6A" },
+  { name: "HubSpot", icon: SiHubspot, color: "#FF7A59" },
+  { name: "Slack", icon: SiSlack, color: "#E01E5A" },
+  { name: "Google", icon: SiGoogle, color: "#4285F4" },
+  { name: "Stripe", icon: SiStripe, color: "#635BFF" },
 ];
 
 export function TechStack() {
@@ -28,7 +40,7 @@ export function TechStack() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary-500/20 bg-primary-600/5 text-xs text-glow-cyan mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border-glow bg-[--surface] text-xs text-glow-cyan mb-4">
             TECH STACK
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
@@ -51,13 +63,13 @@ export function TechStack() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.05 }}
-              className="group relative flex flex-col items-center gap-3 p-5 rounded-2xl border-glow bg-[--surface] hover:border-primary-500/20 hover:bg-primary-600/5 transition-all duration-300 hover:-translate-y-1"
+              className="group relative flex flex-col items-center gap-3 p-5 rounded-2xl border-glow bg-[--surface] hover:bg-primary-600/5 transition-all duration-300 hover:-translate-y-1"
             >
               <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center text-lg font-bold"
-                style={{ backgroundColor: tech.color + "15", color: tech.color }}
+                className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+                style={{ color: tech.color }}
               >
-                {tech.name[0]}
+                <tech.icon size={28} />
               </div>
               <span className="text-xs text-[--text-muted] group-hover:text-[--text-secondary] transition-colors">
                 {tech.name}
@@ -69,5 +81,3 @@ export function TechStack() {
     </section>
   );
 }
-
-
