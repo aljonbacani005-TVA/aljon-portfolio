@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const FRAME_COUNT = 192;
 const FRAME_DIR = "/Avatar_frames";
+const FRAME_COUNT = 192;
+const CENTER = Math.ceil(FRAME_COUNT / 2); // 96
 
 function framePath(index: number) {
   return `${FRAME_DIR}/frame_${String(Math.max(1, Math.min(FRAME_COUNT, index))).padStart(4, "0")}.webp`;
@@ -12,33 +13,33 @@ function framePath(index: number) {
 export function Avatar() {
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
   const smoothRef = useRef({ x: 0.5, y: 0.5 });
-  const currentFrame = useRef(1);
+  const currentFrame = useRef(CENTER);
   const rafRef = useRef<number | null>(null);
-  const [displayFrame, setDisplayFrame] = useState(1);
+  const [displayFrame, setDisplayFrame] = useState(CENTER);
   const [loaded, setLoaded] = useState(false);
 
-  // Preload first batch of frames
+  // Preload center frame + a few around it
   useEffect(() => {
     let mounted = true;
+    const preload = [CENTER - 2, CENTER - 1, CENTER, CENTER + 1, CENTER + 2];
     let count = 0;
-    const total = 20;
 
-    for (let i = 1; i <= total; i++) {
+    for (const i of preload) {
       const img = new Image();
       img.src = framePath(i);
       img.onload = () => {
         count++;
-        if (count >= total && mounted) setLoaded(true);
+        if (count >= preload.length && mounted) setLoaded(true);
       };
       img.onerror = () => {
         count++;
-        if (count >= total && mounted) setLoaded(true);
+        if (count >= preload.length && mounted) setLoaded(true);
       };
     }
 
     const fallback = setTimeout(() => {
       if (mounted) setLoaded(true);
-    }, 3000);
+    }, 2000);
 
     return () => {
       mounted = false;
@@ -78,25 +79,25 @@ export function Avatar() {
 
       const { x, y } = smoothRef.current;
 
-      // Subtle head movement - only use middle frames (stay front-facing)
-      // Frame 80-112 = slight left-right range, center = 96
+      // Map mouse to frame range
+      // X: primary (left-right gaze)
+      // Y: secondary (up-down tilt)
       const xNorm = (x - 0.5) * 2; // -1 to 1
       const yNorm = (y - 0.5) * 2; // -1 to 1
 
-      // Small range: frames 80-112 (16 frames each side of center)
-      const baseFrame = 96 + xNorm * 16;
-      const yOffset = yNorm * 4;
+      // Use full frame range
+      const baseFrame = CENTER + xNorm * (CENTER - 1);
+      const yOffset = yNorm * 8;
 
       const target = Math.round(baseFrame + yOffset);
-      const clamped = Math.max(80, Math.min(112, target));
+      const clamped = Math.max(1, Math.min(FRAME_COUNT, target));
 
-      // Very smooth frame transition
+      // Smooth blend
       const blend = 0.08;
       currentFrame.current += (clamped - currentFrame.current) * blend;
-      const frame = Math.round(currentFrame.current);
-      const finalFrame = Math.max(80, Math.min(112, frame));
+      const frame = Math.max(1, Math.min(FRAME_COUNT, Math.round(currentFrame.current)));
 
-      setDisplayFrame(finalFrame);
+      setDisplayFrame(frame);
       rafRef.current = requestAnimationFrame(tick);
     };
 
