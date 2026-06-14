@@ -2,41 +2,40 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const FRAME_DIR = "/Avatar_frames";
+const DIR_1 = "/Avatar_frames";
+const DIR_2 = "/Avatar_frames_2";
+const FRAME_COUNT = 121; // 0-120
 
-// Available frames (non-contiguous)
-const FRAMES = [
-  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,
-  170,171,172,
-  176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,
-];
-
-const FRAME_COUNT = FRAMES.length; // 47
-const CENTER_IDX = Math.floor(FRAME_COUNT / 2); // ~23 (frame 24)
-
-function framePath(frameNum: number) {
-  return `${FRAME_DIR}/frame_${String(frameNum).padStart(4, "0")}.webp`;
+function framePath(dir: string, index: number) {
+  return `${dir}/frame_${String(Math.max(0, Math.min(FRAME_COUNT - 1, index))).padStart(6, "0")}.webp`;
 }
 
 export function Avatar() {
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
   const smoothRef = useRef({ x: 0.5, y: 0.5 });
-  const currentIdx = useRef(CENTER_IDX);
+  const currentFrame = useRef(60);
   const rafRef = useRef<number | null>(null);
-  const [displayIdx, setDisplayIdx] = useState(CENTER_IDX);
+  const [displayFrame, setDisplayFrame] = useState(60);
   const [loaded, setLoaded] = useState(false);
 
-  // Preload center frames
+  // Preload center frames from both sets
   useEffect(() => {
     let mounted = true;
-    const preload = [FRAMES[CENTER_IDX - 1], FRAMES[CENTER_IDX], FRAMES[CENTER_IDX + 1]];
     let count = 0;
+    const total = 4;
 
-    for (const f of preload) {
+    const preload = [
+      framePath(DIR_1, 58),
+      framePath(DIR_1, 62),
+      framePath(DIR_2, 58),
+      framePath(DIR_2, 62),
+    ];
+
+    for (const src of preload) {
       const img = new Image();
-      img.src = framePath(f);
-      img.onload = () => { count++; if (count >= preload.length && mounted) setLoaded(true); };
-      img.onerror = () => { count++; if (count >= preload.length && mounted) setLoaded(true); };
+      img.src = src;
+      img.onload = () => { count++; if (count >= total && mounted) setLoaded(true); };
+      img.onerror = () => { count++; if (count >= total && mounted) setLoaded(true); };
     }
 
     const fallback = setTimeout(() => { if (mounted) setLoaded(true); }, 2000);
@@ -72,24 +71,30 @@ export function Avatar() {
       const xNorm = (x - 0.5) * 2; // -1 to 1
       const yNorm = (y - 0.5) * 2;
 
-      // Map to frame index
-      const baseIdx = CENTER_IDX + xNorm * (FRAME_COUNT / 2 - 1);
-      const yOffset = yNorm * 2;
+      // X drives frame selection (left-right gaze)
+      // Y adds subtle offset
+      const baseFrame = 60 + xNorm * 59;
+      const yOffset = yNorm * 4;
 
-      const target = Math.round(baseIdx + yOffset);
+      const target = Math.round(baseFrame + yOffset);
       const clamped = Math.max(0, Math.min(FRAME_COUNT - 1, target));
 
       const blend = 0.08;
-      currentIdx.current += (clamped - currentIdx.current) * blend;
-      const idx = Math.max(0, Math.min(FRAME_COUNT - 1, Math.round(currentIdx.current)));
+      currentFrame.current += (clamped - currentFrame.current) * blend;
+      const frame = Math.max(0, Math.min(FRAME_COUNT - 1, Math.round(currentFrame.current)));
 
-      setDisplayIdx(idx);
+      setDisplayFrame(frame);
       rafRef.current = requestAnimationFrame(tick);
     };
 
     rafRef.current = requestAnimationFrame(tick);
     return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
   }, []);
+
+  // Choose frame set based on mouse position
+  // Set 1 for left half, Set 2 for right half, with crossfade
+  const x = smoothRef.current.x;
+  const useDir = x < 0.5 ? DIR_1 : DIR_2;
 
   return (
     <div className="relative">
@@ -106,7 +111,7 @@ export function Avatar() {
       >
         <div className="w-full h-full rounded-full bg-[--bg-deep] flex items-center justify-center overflow-hidden">
           <img
-            src={framePath(FRAMES[displayIdx])}
+            src={framePath(useDir, displayFrame)}
             alt="Aljon Bacani"
             className="w-full h-full object-cover select-none"
             style={{ opacity: loaded ? 1 : 0 }}
