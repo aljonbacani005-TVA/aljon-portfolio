@@ -83,7 +83,7 @@ export function Services() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="group relative rounded-2xl border border-[--border-subtle] bg-[--surface] p-6 hover:border-primary-500/20 transition-all duration-300 hover:-translate-y-1"
+              className="group relative rounded-2xl border-glow bg-[--surface] p-6 hover:border-primary-500/20 transition-all duration-300 hover:-translate-y-1"
             >
               <div
                 className={`w-12 h-12 rounded-xl bg-gradient-to-br ${service.gradient} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
@@ -101,4 +101,5 @@ export function Services() {
     </section>
   );
 }
+
 

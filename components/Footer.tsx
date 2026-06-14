@@ -17,7 +17,7 @@ const socials = [
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-[--border-subtle] py-12 px-6">
+    <footer className="relative border-t border-glow py-12 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Logo */}
@@ -51,7 +51,7 @@ export function Footer() {
                 href={s.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-lg border border-[--border-subtle] bg-[--surface] flex items-center justify-center text-[--text-muted] hover:text-[--text-primary] hover:border-primary-500/30 hover:bg-primary-600/5 transition-all duration-200"
+                className="w-9 h-9 rounded-lg border border-glow bg-[--surface] flex items-center justify-center text-[--text-muted] hover:text-[--text-primary] hover:border-primary-500/30 hover:bg-primary-600/5 transition-all duration-200"
                 aria-label={s.label}
               >
                 <s.icon size={16} />

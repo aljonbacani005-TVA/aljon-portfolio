@@ -63,7 +63,7 @@ export function Projects() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="group relative rounded-2xl border border-[--border-subtle] bg-[--surface] overflow-hidden hover:border-primary-500/20 transition-all duration-300 hover:-translate-y-1"
+              className="group relative rounded-2xl border-glow bg-[--surface] overflow-hidden hover:border-primary-500/20 transition-all duration-300 hover:-translate-y-1"
             >
               <div
                 className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
@@ -85,7 +85,7 @@ export function Projects() {
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1 text-xs rounded-full border border-[--border-subtle] bg-[--surface] text-[--text-secondary]"
+                      className="px-3 py-1 text-xs rounded-full border-glow bg-[--surface] text-[--text-secondary]"
                     >
                       {tag}
                     </span>
@@ -99,4 +99,5 @@ export function Projects() {
     </section>
   );
 }
+
 

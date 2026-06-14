@@ -12,7 +12,7 @@ export function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative rounded-3xl border border-[--border-subtle] bg-[--surface] overflow-hidden"
+          className="relative rounded-3xl border-glow bg-[--surface] overflow-hidden"
         >
           {/* Background glow */}
           <div className="absolute inset-0 bg-gradient-to-br from-primary-600/10 via-transparent to-glow-cyan/5" />
@@ -47,7 +47,7 @@ export function Contact() {
               </a>
               <a
                 href="#"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-[--border-subtle] bg-[--surface] text-[--text-secondary] hover:text-[--text-primary] hover:border-primary-500/30 hover:bg-primary-600/5 font-semibold backdrop-blur-sm transition-all duration-200 hover:scale-[1.02]"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border-glow bg-[--surface] text-[--text-secondary] hover:text-[--text-primary] hover:border-primary-500/30 hover:bg-primary-600/5 font-semibold backdrop-blur-sm transition-all duration-200 hover:scale-[1.02]"
               >
                 <Calendar size={18} />
                 Book a Call
@@ -59,4 +59,5 @@ export function Contact() {
     </section>
   );
 }
+
 

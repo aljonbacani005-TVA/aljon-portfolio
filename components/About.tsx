@@ -49,7 +49,7 @@ export function About() {
           {stats.map((stat, i) => (
             <div
               key={stat.label}
-              className="relative group rounded-2xl border border-[--border-subtle] bg-[--surface] p-6 text-center hover:border-primary-500/20 hover:bg-primary-600/5 transition-all duration-300"
+              className="relative group rounded-2xl border-glow bg-[--surface] p-6 text-center hover:border-primary-500/20 hover:bg-primary-600/5 transition-all duration-300"
             >
               <div className="text-3xl sm:text-4xl font-extrabold text-[--text-primary] mb-2">
                 {stat.value}
@@ -84,7 +84,7 @@ export function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="group relative rounded-2xl border border-[--border-subtle] bg-[--surface] p-6 hover:border-primary-500/20 hover:bg-primary-600/5 transition-all duration-300"
+              className="group relative rounded-2xl border-glow bg-[--surface] p-6 hover:border-primary-500/20 hover:bg-primary-600/5 transition-all duration-300"
             >
               <div className="w-12 h-12 rounded-xl bg-primary-600/10 flex items-center justify-center mb-4 group-hover:bg-primary-600/20 transition-colors">
                 <item.icon size={22} className="text-primary-400" />
@@ -98,4 +98,5 @@ export function About() {
     </section>
   );
 }
+
 

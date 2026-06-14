@@ -186,3 +186,39 @@ html[data-theme="light"] .aurora::after {
 @keyframes spin-slow {
   to { transform: rotate(360deg); }
 }
+
+/* ===== Gradient border utility ===== */
+.border-gradient {
+  position: relative;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+
+.border-gradient::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(56, 189, 248, 0.08), rgba(59, 130, 246, 0.05));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: background 0.3s ease;
+}
+
+.border-gradient:hover::before {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.35), rgba(56, 189, 248, 0.2), rgba(59, 130, 246, 0.15));
+}
+
+/* ===== Glow border on hover ===== */
+.border-glow {
+  border: 1px solid rgba(59, 130, 246, 0.06);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.border-glow:hover {
+  border-color: rgba(59, 130, 246, 0.2);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.08), 0 0 40px rgba(56, 189, 248, 0.04);
+}

@@ -38,7 +38,7 @@ export function Hero() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.4, delay: 0.5 }}
         onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-        className="fixed top-4 right-4 z-50 w-10 h-10 rounded-full border border-[--border-subtle] bg-[--surface] backdrop-blur-md flex items-center justify-center text-[--text-muted] hover:text-[--text-primary] hover:border-primary-500/30 hover:bg-primary-600/10 transition-all duration-200 hover:scale-110"
+        className="fixed top-4 right-4 z-50 w-10 h-10 rounded-full border-glow bg-[--surface] backdrop-blur-md flex items-center justify-center text-[--text-muted] hover:text-[--text-primary] hover:bg-primary-600/10 transition-all duration-200 hover:scale-110"
         aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
       >
         {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
@@ -102,7 +102,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.25 }}
-          className="w-full rounded-2xl border border-[--border-accent] bg-[--surface] backdrop-blur-xl shadow-2xl shadow-primary-600/5 overflow-hidden"
+          className="w-full rounded-2xl border-gradient bg-[--surface] backdrop-blur-xl shadow-2xl shadow-primary-600/5 overflow-hidden"
         >
           {/* Suggestion pills */}
           <div className="flex flex-wrap gap-2 px-4 pt-3 pb-2">
@@ -110,7 +110,7 @@ export function Hero() {
               <button
                 key={s.label}
                 onClick={() => setInput(s.label)}
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[--border-subtle] bg-[--surface] text-xs text-[--text-secondary] hover:text-[--text-primary] hover:border-primary-500/30 hover:bg-primary-600/10 transition-all duration-200"
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border-glow bg-[--surface] text-xs text-[--text-secondary] hover:text-[--text-primary] hover:bg-primary-600/10 transition-all duration-200"
               >
                 <s.icon size={13} className="text-glow-cyan/70" />
                 {s.label}
@@ -120,7 +120,7 @@ export function Hero() {
 
           {/* Input row */}
           <div className="px-4 pb-3">
-            <div className="flex items-center gap-2 rounded-xl bg-[--bg-deep]/70 border border-[--border-subtle]">
+            <div className="flex items-center gap-2 rounded-xl bg-[--bg-deep]/70 border-glow">
               <textarea
                 ref={textareaRef}
                 value={input}
@@ -153,14 +153,14 @@ export function Hero() {
         >
           <a
             href="mailto:aljon.bacani@gmail.com"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[--border-subtle] bg-[--surface] text-sm text-[--text-secondary] hover:text-[--text-primary] hover:border-primary-500/30 hover:bg-primary-600/10 transition-all duration-200"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border-glow bg-[--surface] text-sm text-[--text-secondary] hover:text-[--text-primary] hover:bg-primary-600/10 transition-all duration-200"
           >
             <Mail size={16} />
             Email me
           </a>
           <a
             href="#"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[--border-subtle] bg-[--surface] text-sm text-[--text-secondary] hover:text-[--text-primary] hover:border-primary-500/30 hover:bg-primary-600/10 transition-all duration-200"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border-glow bg-[--surface] text-sm text-[--text-secondary] hover:text-[--text-primary] hover:bg-primary-600/10 transition-all duration-200"
           >
             <Calendar size={16} />
             Book a call

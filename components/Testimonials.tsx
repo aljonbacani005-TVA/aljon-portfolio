@@ -54,7 +54,7 @@ export function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="group relative rounded-2xl border border-[--border-subtle] bg-[--surface] p-6 hover:border-primary-500/20 transition-all duration-300"
+              className="group relative rounded-2xl border-glow bg-[--surface] p-6 hover:border-primary-500/20 transition-all duration-300"
             >
               <div className="flex gap-1 mb-4">
                 {Array.from({ length: t.stars }).map((_, si) => (
@@ -84,4 +84,5 @@ export function Testimonials() {
     </section>
   );
 }
+
 
