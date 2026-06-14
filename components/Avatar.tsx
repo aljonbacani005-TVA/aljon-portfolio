@@ -78,21 +78,23 @@ export function Avatar() {
 
       const { x, y } = smoothRef.current;
 
-      // Map mouse position to frame
-      const xNorm = (x - 0.5) * 2;
-      const yNorm = (y - 0.5) * 2;
+      // Subtle head movement - only use middle frames (stay front-facing)
+      // Frame 80-112 = slight left-right range, center = 96
+      const xNorm = (x - 0.5) * 2; // -1 to 1
+      const yNorm = (y - 0.5) * 2; // -1 to 1
 
-      const baseFrame = 96 + xNorm * 95;
-      const yOffset = yNorm * 8;
+      // Small range: frames 80-112 (16 frames each side of center)
+      const baseFrame = 96 + xNorm * 16;
+      const yOffset = yNorm * 4;
 
       const target = Math.round(baseFrame + yOffset);
-      const clamped = Math.max(1, Math.min(FRAME_COUNT, target));
+      const clamped = Math.max(80, Math.min(112, target));
 
       // Very smooth frame transition
       const blend = 0.08;
       currentFrame.current += (clamped - currentFrame.current) * blend;
       const frame = Math.round(currentFrame.current);
-      const finalFrame = Math.max(1, Math.min(FRAME_COUNT, frame));
+      const finalFrame = Math.max(80, Math.min(112, frame));
 
       setDisplayFrame(finalFrame);
       rafRef.current = requestAnimationFrame(tick);
