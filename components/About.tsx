@@ -31,7 +31,7 @@ export function About() {
               Automated Workflows
             </span>
           </h2>
-          <p className="max-w-2xl mx-auto text-text-secondary text-lg leading-relaxed">
+          <p className="max-w-2xl mx-auto text-[--text-secondary] text-lg leading-relaxed">
             I&apos;m an AI Automation Specialist who helps businesses eliminate repetitive
             tasks, connect their tools, and build intelligent workflows that save time
             and money. Based in Pampanga, Philippines, working with clients worldwide.
@@ -54,7 +54,7 @@ export function About() {
               <div className="text-3xl sm:text-4xl font-extrabold bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent mb-2">
                 {stat.value}
               </div>
-              <div className="text-sm text-text-muted">{stat.label}</div>
+              <div className="text-sm text-[--text-muted]">{stat.label}</div>
             </div>
           ))}
         </motion.div>
@@ -90,7 +90,7 @@ export function About() {
                 <item.icon size={22} className="text-primary-400" />
               </div>
               <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
-              <p className="text-sm text-text-muted leading-relaxed">{item.desc}</p>
+              <p className="text-sm text-[--text-muted] leading-relaxed">{item.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -98,3 +98,4 @@ export function About() {
     </section>
   );
 }
+

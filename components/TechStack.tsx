@@ -37,7 +37,7 @@ export function TechStack() {
               Work With
             </span>
           </h2>
-          <p className="max-w-xl mx-auto text-text-muted text-lg">
+          <p className="max-w-xl mx-auto text-[--text-muted] text-lg">
             I leverage the best tools in the industry to deliver reliable,
             scalable automation solutions.
           </p>
@@ -59,7 +59,7 @@ export function TechStack() {
               >
                 {tech.name[0]}
               </div>
-              <span className="text-xs text-text-muted group-hover:text-text-secondary transition-colors">
+              <span className="text-xs text-[--text-muted] group-hover:text-[--text-secondary] transition-colors">
                 {tech.name}
               </span>
             </motion.div>
@@ -69,3 +69,4 @@ export function TechStack() {
     </section>
   );
 }
+

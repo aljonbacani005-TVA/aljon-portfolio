@@ -50,7 +50,7 @@ export function Projects() {
               Work
             </span>
           </h2>
-          <p className="max-w-xl mx-auto text-text-muted text-lg">
+          <p className="max-w-xl mx-auto text-[--text-muted] text-lg">
             Real automations that saved businesses time, money, and headaches.
           </p>
         </motion.div>
@@ -75,17 +75,17 @@ export function Projects() {
                   </h3>
                   <ArrowUpRight
                     size={20}
-                    className="text-text-muted group-hover:text-primary-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+                    className="text-[--text-muted] group-hover:text-primary-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
                   />
                 </div>
-                <p className="text-sm text-text-muted leading-relaxed mb-4">
+                <p className="text-sm text-[--text-muted] leading-relaxed mb-4">
                   {project.desc}
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1 text-xs rounded-full border border-white/10 bg-white/[0.03] text-text-secondary"
+                      className="px-3 py-1 text-xs rounded-full border border-[--border-subtle] bg-[--surface] text-[--text-secondary]"
                     >
                       {tag}
                     </span>
@@ -99,3 +99,4 @@ export function Projects() {
     </section>
   );
 }
+

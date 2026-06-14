@@ -31,7 +31,7 @@ export function Contact() {
               </span>
             </h2>
 
-            <p className="max-w-lg mx-auto text-text-secondary text-lg mb-8">
+            <p className="max-w-lg mx-auto text-[--text-secondary] text-lg mb-8">
               Let&apos;s discuss how AI automation can transform your business.
               Book a free strategy call or send me an email.
             </p>
@@ -47,7 +47,7 @@ export function Contact() {
               </a>
               <a
                 href="#"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-white/10 bg-white/[0.03] text-text-secondary hover:text-white hover:border-primary-500/30 hover:bg-primary-600/5 font-semibold backdrop-blur-sm transition-all duration-200 hover:scale-[1.02]"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-[--border-subtle] bg-[--surface] text-[--text-secondary] hover:text-[--text-primary] hover:border-primary-500/30 hover:bg-primary-600/5 font-semibold backdrop-blur-sm transition-all duration-200 hover:scale-[1.02]"
               >
                 <Calendar size={18} />
                 Book a Call
@@ -59,3 +59,4 @@ export function Contact() {
     </section>
   );
 }
+

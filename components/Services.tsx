@@ -69,7 +69,7 @@ export function Services() {
               Build For You
             </span>
           </h2>
-          <p className="max-w-xl mx-auto text-text-muted text-lg">
+          <p className="max-w-xl mx-auto text-[--text-muted] text-lg">
             From simple automations to complex AI-powered systems, I deliver
             solutions that scale with your business.
           </p>
@@ -88,10 +88,10 @@ export function Services() {
               <div
                 className={`w-12 h-12 rounded-xl bg-gradient-to-br ${service.gradient} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
               >
-                <service.icon size={22} className="text-white/80" />
+                <service.icon size={22} className="text-[--text-secondary]" />
               </div>
               <h3 className="text-lg font-semibold mb-2">{service.title}</h3>
-              <p className="text-sm text-text-muted leading-relaxed">
+              <p className="text-sm text-[--text-muted] leading-relaxed">
                 {service.desc}
               </p>
             </motion.div>
@@ -101,3 +101,4 @@ export function Services() {
     </section>
   );
 }
+

@@ -29,7 +29,7 @@ export function Hero() {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-24 pb-16 overflow-hidden">
       {/* Background layers */}
-      <div className="absolute inset-0 bg-grid opacity-100 dark:opacity-100 light:opacity-30" />
+      <div className="absolute inset-0 bg-grid" />
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-gradient-to-tl from-primary-600/25 via-glow-cyan/10 to-transparent rounded-full blur-[120px] translate-x-1/4 translate-y-1/4" />
 
       {/* Theme toggle */}
@@ -38,7 +38,7 @@ export function Hero() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.4, delay: 0.5 }}
         onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-        className="fixed top-4 right-4 z-50 w-10 h-10 rounded-full border border-white/10 bg-white/[0.05] backdrop-blur-md flex items-center justify-center text-text-muted hover:text-white hover:border-primary-500/30 hover:bg-primary-600/10 transition-all duration-200 hover:scale-110"
+        className="fixed top-4 right-4 z-50 w-10 h-10 rounded-full border border-[--border-subtle] bg-[--surface] backdrop-blur-md flex items-center justify-center text-[--text-muted] hover:text-[--text-primary] hover:border-primary-500/30 hover:bg-primary-600/10 transition-all duration-200 hover:scale-110"
         aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
       >
         {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
@@ -50,7 +50,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary-500/25 bg-primary-600/10 text-sm text-white/90 backdrop-blur-sm"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary-500/25 bg-primary-600/10 text-sm text-[--text-primary] backdrop-blur-sm"
         >
           <Sparkles size={14} className="text-glow-cyan" />
           Available for automation work
@@ -61,7 +61,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-4xl sm:text-5xl font-extrabold text-center tracking-tight text-text-primary"
+          className="text-4xl sm:text-5xl font-extrabold text-center tracking-tight text-[--text-primary]"
         >
           Hey, I&apos;m Aljon Bacani
         </motion.h1>
@@ -71,7 +71,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
-          className="text-base text-text-secondary"
+          className="text-base text-[--text-secondary]"
         >
           AI Automation Specialist · Pampanga, PH
         </motion.p>
@@ -84,10 +84,10 @@ export function Hero() {
           className="my-2"
         >
           <div
-            className="w-28 h-28 rounded-full bg-white p-[3px] shadow-2xl shadow-primary-600/40"
+            className="w-28 h-28 rounded-full bg-[--bg-card] p-[3px] shadow-2xl shadow-primary-600/40"
             style={{ animation: "glow-pulse 3s ease-in-out infinite" }}
           >
-            <div className="w-full h-full rounded-full bg-bg-deep flex items-center justify-center overflow-hidden">
+            <div className="w-full h-full rounded-full bg-[--bg-deep] flex items-center justify-center overflow-hidden">
               <img
                 src="/Avatar_frames/frame_0001.webp"
                 alt="Aljon Bacani"
@@ -102,7 +102,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.25 }}
-          className="w-full rounded-2xl border border-primary-500/20 bg-primary-950/40 backdrop-blur-xl shadow-2xl shadow-primary-600/5 overflow-hidden"
+          className="w-full rounded-2xl border border-[--border-accent] bg-[--surface] backdrop-blur-xl shadow-2xl shadow-primary-600/5 overflow-hidden"
         >
           {/* Suggestion pills */}
           <div className="flex flex-wrap gap-2 px-4 pt-3 pb-2">
@@ -110,7 +110,7 @@ export function Hero() {
               <button
                 key={s.label}
                 onClick={() => setInput(s.label)}
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-primary-900/50 text-xs text-white/80 hover:text-white hover:border-primary-500/30 hover:bg-primary-800/50 transition-all duration-200"
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[--border-subtle] bg-[--surface] text-xs text-[--text-secondary] hover:text-[--text-primary] hover:border-primary-500/30 hover:bg-primary-600/10 transition-all duration-200"
               >
                 <s.icon size={13} className="text-glow-cyan/70" />
                 {s.label}
@@ -120,7 +120,7 @@ export function Hero() {
 
           {/* Input row */}
           <div className="px-4 pb-3">
-            <div className="flex items-center gap-2 rounded-xl bg-bg-deep/70 border border-white/[0.06]">
+            <div className="flex items-center gap-2 rounded-xl bg-[--bg-deep]/70 border border-[--border-subtle]">
               <textarea
                 ref={textareaRef}
                 value={input}
@@ -132,7 +132,7 @@ export function Hero() {
                 }}
                 placeholder="Ask me anything..."
                 rows={1}
-                className="flex-1 bg-transparent text-text-primary placeholder:text-text-muted text-sm px-4 py-3 resize-none outline-none max-h-24"
+                className="flex-1 bg-transparent text-[--text-primary] placeholder:text-[--text-muted] text-sm px-4 py-3 resize-none outline-none max-h-24"
               />
               <button
                 className="mr-2 w-9 h-9 rounded-lg bg-primary-600 hover:bg-primary-500 flex items-center justify-center text-white shadow-lg shadow-primary-600/30 transition-all duration-200 hover:scale-105 disabled:opacity-30 disabled:hover:scale-100 flex-shrink-0"
@@ -153,14 +153,14 @@ export function Hero() {
         >
           <a
             href="mailto:aljon.bacani@gmail.com"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-primary-900/40 text-sm text-white/80 hover:text-white hover:border-primary-500/30 hover:bg-primary-800/40 transition-all duration-200"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[--border-subtle] bg-[--surface] text-sm text-[--text-secondary] hover:text-[--text-primary] hover:border-primary-500/30 hover:bg-primary-600/10 transition-all duration-200"
           >
             <Mail size={16} />
             Email me
           </a>
           <a
             href="#"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-primary-900/40 text-sm text-white/80 hover:text-white hover:border-primary-500/30 hover:bg-primary-800/40 transition-all duration-200"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[--border-subtle] bg-[--surface] text-sm text-[--text-secondary] hover:text-[--text-primary] hover:border-primary-500/30 hover:bg-primary-600/10 transition-all duration-200"
           >
             <Calendar size={16} />
             Book a call
@@ -172,7 +172,7 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="text-sm text-text-muted text-center max-w-md mt-1"
+          className="text-sm text-[--text-muted] text-center max-w-md mt-1"
         >
           Ask me about automations, AI workflows, project ideas, or how I can
           help remove repetitive work from your business.

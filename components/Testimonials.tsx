@@ -65,7 +65,7 @@ export function Testimonials() {
                   />
                 ))}
               </div>
-              <p className="text-sm text-text-secondary leading-relaxed mb-6">
+              <p className="text-sm text-[--text-secondary] leading-relaxed mb-6">
                 &ldquo;{t.text}&rdquo;
               </p>
               <div className="flex items-center gap-3">
@@ -74,7 +74,7 @@ export function Testimonials() {
                 </div>
                 <div>
                   <div className="text-sm font-medium">{t.name}</div>
-                  <div className="text-xs text-text-muted">{t.role}</div>
+                  <div className="text-xs text-[--text-muted]">{t.role}</div>
                 </div>
               </div>
             </motion.div>
@@ -84,3 +84,4 @@ export function Testimonials() {
     </section>
   );
 }
+
