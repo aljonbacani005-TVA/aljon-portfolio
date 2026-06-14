@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useRef, useState, useEffect, useCallback } from "react";
+import { ArrowUpRight, X } from "lucide-react";
 
 /* ── Platform SVG logos ──────────────────────────────────── */
 
@@ -236,11 +236,99 @@ function StaggerCard({
   );
 }
 
+/* ── Image modal ───────────────────────────────────────── */
+
+function ImageModal({
+  open,
+  onClose,
+  src,
+  alt,
+}: {
+  open: boolean;
+  onClose: () => void;
+  src: string;
+  alt: string;
+}) {
+  /* Close on ESC */
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handler);
+    /* Prevent body scroll while modal is open */
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handler);
+      document.body.style.overflow = "";
+    };
+  }, [open, onClose]);
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          key="image-modal-overlay"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8"
+          onClick={onClose}
+        >
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+
+          {/* Close button */}
+          <button
+            onClick={onClose}
+            aria-label="Close image preview"
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
+          >
+            <X size={24} />
+          </button>
+
+          {/* Image container */}
+          <motion.div
+            key="image-modal-content"
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.92 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="relative z-10 max-w-5xl w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={src}
+              alt={alt}
+              className="w-full h-auto rounded-2xl shadow-[0_0_60px_rgba(0,0,0,0.5)] object-contain max-h-[85vh]"
+            />
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
 /* ── Main component ──────────────────────────────────────── */
 
 export function Projects() {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = useCallback(() => setModalOpen(true), []);
+  const closeModal = useCallback(() => setModalOpen(false), []);
+
   return (
     <section id="projects" className="relative py-24 px-6">
+      {/* Image preview modal */}
+      <ImageModal
+        open={modalOpen}
+        onClose={closeModal}
+        src="/projects/asana-automation.png"
+        alt="CRM & Asana Automation preview"
+      />
+
       <div className="max-w-6xl mx-auto">
         {/* Section header */}
         <motion.div
@@ -265,7 +353,7 @@ export function Projects() {
         </motion.div>
 
         {/* Platform sections */}
-        {platforms.map((platform, pIdx) => (
+        {platforms.map((platform) => (
           <div key={platform.id} className="mb-20 last:mb-0">
             {/* Platform heading */}
             <motion.div
@@ -311,7 +399,13 @@ export function Projects() {
                       transition-all duration-300 ease-out
                       hover:-translate-y-1 hover:bg-[--surface-hover]
                       overflow-hidden
+                      ${project.title === "CRM & Asana Automation" ? "cursor-pointer" : ""}
                     `}
+                    onClick={
+                      project.title === "CRM & Asana Automation"
+                        ? openModal
+                        : undefined
+                    }
                   >
                     {/* Hover gradient glow */}
                     <div

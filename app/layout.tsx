@@ -33,8 +33,16 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={inter.variable} data-theme="dark">
-      <body className="bg-bg-deep text-text-primary antialiased">
+    <html
+      lang="en"
+      className={inter.variable}
+      data-theme="dark"
+      suppressHydrationWarning
+    >
+      <body
+        className="bg-bg-deep text-text-primary antialiased"
+        suppressHydrationWarning
+      >
         <MouseEffects />
         <div className="spotlight" />
         <div className="aurora" />

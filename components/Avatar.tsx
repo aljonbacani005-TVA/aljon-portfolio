@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 
 const DIR_1 = "/Avatar_frames";
 const DIR_2 = "/Avatar_frames_2";
@@ -10,13 +10,24 @@ function framePath(dir: string, index: number) {
   return `${dir}/frame_${String(Math.max(0, Math.min(FRAME_COUNT - 1, index))).padStart(6, "0")}.webp`;
 }
 
-export function Avatar() {
+// Pre-built path lookup table to avoid string concatenation in rAF
+const FRAME_PATHS_1: string[] = [];
+const FRAME_PATHS_2: string[] = [];
+for (let i = 0; i < FRAME_COUNT; i++) {
+  FRAME_PATHS_1.push(framePath(DIR_1, i));
+  FRAME_PATHS_2.push(framePath(DIR_2, i));
+}
+
+export const Avatar = memo(function Avatar() {
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
   const smoothRef = useRef({ x: 0.5, y: 0.5 });
   const currentFrame = useRef(60);
   const rafRef = useRef<number | null>(null);
-  const [displayFrame, setDisplayFrame] = useState(60);
+  const imgRef = useRef<HTMLImageElement | null>(null);
+  const lastFrame = useRef(-1);
+  const lastDir = useRef<1 | 2>(1);
   const [loaded, setLoaded] = useState(false);
+  const [initialSrc, setInitialSrc] = useState("");
 
   // Preload center frames from both sets
   useEffect(() => {
@@ -31,15 +42,28 @@ export function Avatar() {
       framePath(DIR_2, 62),
     ];
 
+    setInitialSrc(framePath(DIR_1, 60));
+
     for (const src of preload) {
       const img = new Image();
       img.src = src;
-      img.onload = () => { count++; if (count >= total && mounted) setLoaded(true); };
-      img.onerror = () => { count++; if (count >= total && mounted) setLoaded(true); };
+      img.onload = () => {
+        count++;
+        if (count >= total && mounted) setLoaded(true);
+      };
+      img.onerror = () => {
+        count++;
+        if (count >= total && mounted) setLoaded(true);
+      };
     }
 
-    const fallback = setTimeout(() => { if (mounted) setLoaded(true); }, 2000);
-    return () => { mounted = false; clearTimeout(fallback); };
+    const fallback = setTimeout(() => {
+      if (mounted) setLoaded(true);
+    }, 2000);
+    return () => {
+      mounted = false;
+      clearTimeout(fallback);
+    };
   }, []);
 
   // Track mouse
@@ -50,7 +74,9 @@ export function Avatar() {
         y: e.clientY / window.innerHeight,
       };
     };
-    const onLeave = () => { mouseRef.current = { x: 0.5, y: 0.5 }; };
+    const onLeave = () => {
+      mouseRef.current = { x: 0.5, y: 0.5 };
+    };
 
     window.addEventListener("pointermove", onMove, { passive: true });
     window.addEventListener("pointerleave", onLeave);
@@ -60,12 +86,14 @@ export function Avatar() {
     };
   }, []);
 
-  // Animation loop
+  // Animation loop — updates DOM directly, NO React state
   useEffect(() => {
     const tick = () => {
       const lerp = 0.06;
-      smoothRef.current.x += (mouseRef.current.x - smoothRef.current.x) * lerp;
-      smoothRef.current.y += (mouseRef.current.y - smoothRef.current.y) * lerp;
+      smoothRef.current.x +=
+        (mouseRef.current.x - smoothRef.current.x) * lerp;
+      smoothRef.current.y +=
+        (mouseRef.current.y - smoothRef.current.y) * lerp;
 
       const { x, y } = smoothRef.current;
       const xNorm = (x - 0.5) * 2; // -1 to 1
@@ -81,44 +109,83 @@ export function Avatar() {
 
       const blend = 0.08;
       currentFrame.current += (clamped - currentFrame.current) * blend;
-      const frame = Math.max(0, Math.min(FRAME_COUNT - 1, Math.round(currentFrame.current)));
+      const frame = Math.max(
+        0,
+        Math.min(FRAME_COUNT - 1, Math.round(currentFrame.current))
+      );
 
-      setDisplayFrame(frame);
+      // Determine which directory to use
+      const dir: 1 | 2 = x < 0.5 ? 1 : 2;
+
+      // Only update DOM if frame or dir actually changed
+      if (frame !== lastFrame.current || dir !== lastDir.current) {
+        lastFrame.current = frame;
+        lastDir.current = dir;
+
+        // Direct DOM manipulation — bypasses React entirely
+        if (imgRef.current) {
+          imgRef.current.src = dir === 1 ? FRAME_PATHS_1[frame] : FRAME_PATHS_2[frame];
+        }
+      }
+
       rafRef.current = requestAnimationFrame(tick);
     };
 
     rafRef.current = requestAnimationFrame(tick);
-    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
-  // Choose frame set based on mouse position
-  // Set 1 for left half, Set 2 for right half, with crossfade
-  const x = smoothRef.current.x;
-  const useDir = x < 0.5 ? DIR_1 : DIR_2;
+  const setImgRef = useCallback((el: HTMLImageElement | null) => {
+    imgRef.current = el;
+  }, []);
 
   return (
-    <div className="relative">
-      {/* Spotlight glow */}
-      <div className="absolute inset-0 -m-8 rounded-full bg-primary-600/20 blur-3xl animate-pulse" />
+    <div
+      className="relative"
+      style={{ willChange: "transform" }}
+    >
+      {/* Spotlight glow — GPU accelerated */}
+      <div
+        className="absolute inset-0 -m-8 rounded-full bg-primary-600/20 animate-pulse"
+        style={{
+          filter: "blur(48px)",
+          willChange: "filter",
+          transform: "translateZ(0)",
+        }}
+      />
 
       {/* Ring */}
       <div
-        className="relative w-40 h-40 sm:w-44 sm:h-44 rounded-full p-[3px] shadow-xl shadow-primary-600/30"
+        className="relative w-40 h-40 sm:w-44 sm:h-44 rounded-full p-[3px]"
         style={{
           animation: "glow-pulse 3s ease-in-out infinite",
           background: "linear-gradient(135deg, #2563EB, #38BDF8, #2563EB)",
+          willChange: "transform, box-shadow",
+          transform: "translateZ(0)",
         }}
       >
-        <div className="w-full h-full rounded-full bg-[--bg-deep] flex items-center justify-center overflow-hidden">
+        <div
+          className="w-full h-full rounded-full bg-[--bg-deep] flex items-center justify-center overflow-hidden"
+          style={{ transform: "translateZ(0)" }}
+        >
           <img
-            src={framePath(useDir, displayFrame)}
+            ref={setImgRef}
+            src={initialSrc || framePath(DIR_1, 60)}
             alt="Aljon Bacani"
             className="w-full h-full object-cover select-none"
-            style={{ opacity: loaded ? 1 : 0 }}
+            style={{
+              opacity: loaded ? 1 : 0,
+              willChange: "transform",
+              transform: "translateZ(0)",
+            }}
             draggable={false}
+            loading="eager"
+            decoding="async"
           />
         </div>
       </div>
     </div>
   );
-}
+});
