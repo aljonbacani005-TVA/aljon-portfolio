@@ -33,15 +33,56 @@ html {
 body {
   margin: 0;
   font-family: var(--font-sans);
-  background: var(--color-bg-deep);
-  color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 ::selection {
   background: rgba(59, 130, 246, 0.3);
   color: white;
+}
+
+/* ===== Dark theme (default) ===== */
+html,
+html[data-theme="dark"] {
+  --bg-deep: #020617;
+  --bg-card: #0F172A;
+  --text-primary: #FFFFFF;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-accent: rgba(59, 130, 246, 0.2);
+  --surface: rgba(255, 255, 255, 0.02);
+  --surface-hover: rgba(255, 255, 255, 0.05);
+  --grid-opacity: 0.05;
+}
+
+html[data-theme="light"] {
+  --bg-deep: #F8FAFC;
+  --bg-card: #FFFFFF;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-accent: rgba(59, 130, 246, 0.25);
+  --surface: rgba(0, 0, 0, 0.02);
+  --surface-hover: rgba(0, 0, 0, 0.05);
+  --grid-opacity: 0.04;
+}
+
+body {
+  background: var(--bg-deep);
+  color: var(--text-primary);
+}
+
+/* ===== Light theme overrides ===== */
+html[data-theme="light"] .aurora::before {
+  background: radial-gradient(ellipse, rgba(37, 99, 235, 0.08) 0%, transparent 70%);
+}
+
+html[data-theme="light"] .aurora::after {
+  background: radial-gradient(ellipse, rgba(56, 189, 248, 0.06) 0%, transparent 70%);
 }
 
 /* ===== Custom scrollbar ===== */
@@ -65,8 +106,8 @@ body {
 /* ===== Grid background ===== */
 .bg-grid {
   background-image:
-    linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(59, 130, 246, var(--grid-opacity)) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, var(--grid-opacity)) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
@@ -120,7 +161,7 @@ body {
   background-size: 256px 256px;
 }
 
-/* ===== Glow pulse ===== */
+/* ===== Animations ===== */
 @keyframes glow-pulse {
   0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3), 0 0 60px rgba(59, 130, 246, 0.1); }
   50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.5), 0 0 80px rgba(59, 130, 246, 0.2); }

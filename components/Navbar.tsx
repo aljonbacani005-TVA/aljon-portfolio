@@ -67,9 +67,6 @@ export function Navbar() {
           >
             Let&apos;s Talk
           </a>
-          <button className="w-10 h-10 rounded-full border border-white/10 bg-white/[0.03] flex items-center justify-center text-text-muted hover:text-white hover:border-primary-500/30 transition-all">
-            <Settings size={18} />
-          </button>
         </div>
 
         {/* Mobile menu button */}

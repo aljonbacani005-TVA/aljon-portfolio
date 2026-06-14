@@ -12,7 +12,7 @@ export function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative rounded-3xl border border-white/[0.06] bg-white/[0.02] overflow-hidden"
+          className="relative rounded-3xl border border-[--border-subtle] bg-[--surface] overflow-hidden"
         >
           {/* Background glow */}
           <div className="absolute inset-0 bg-gradient-to-br from-primary-600/10 via-transparent to-glow-cyan/5" />

@@ -51,7 +51,7 @@ export function TechStack() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.05 }}
-              className="group relative flex flex-col items-center gap-3 p-5 rounded-2xl border border-white/[0.06] bg-white/[0.02] hover:border-primary-500/20 hover:bg-primary-600/5 transition-all duration-300 hover:-translate-y-1"
+              className="group relative flex flex-col items-center gap-3 p-5 rounded-2xl border border-[--border-subtle] bg-[--surface] hover:border-primary-500/20 hover:bg-primary-600/5 transition-all duration-300 hover:-translate-y-1"
             >
               <div
                 className="w-10 h-10 rounded-xl flex items-center justify-center text-lg font-bold"

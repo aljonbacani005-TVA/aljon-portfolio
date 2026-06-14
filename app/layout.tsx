@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { MouseEffects } from "@/components/MouseEffects";
 import "./globals.css";
 
 const inter = Inter({
@@ -32,8 +33,9 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={inter.variable} data-theme="dark">
       <body className="bg-bg-deep text-text-primary antialiased">
+        <MouseEffects />
         <div className="aurora" />
         <div className="noise" />
         {children}
