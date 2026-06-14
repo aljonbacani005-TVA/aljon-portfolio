@@ -51,7 +51,7 @@ export function About() {
               key={stat.label}
               className="relative group rounded-2xl border border-[--border-subtle] bg-[--surface] p-6 text-center hover:border-primary-500/20 hover:bg-primary-600/5 transition-all duration-300"
             >
-              <div className="text-3xl sm:text-4xl font-extrabold bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent mb-2">
+              <div className="text-3xl sm:text-4xl font-extrabold text-[--text-primary] mb-2">
                 {stat.value}
               </div>
               <div className="text-sm text-[--text-muted]">{stat.label}</div>
