@@ -93,9 +93,16 @@ export function Avatar() {
 
   return (
     <div className="relative">
+      {/* Spotlight glow */}
+      <div className="absolute inset-0 -m-8 rounded-full bg-primary-600/20 blur-3xl animate-pulse" />
+
+      {/* Ring */}
       <div
-        className="w-32 h-32 rounded-full p-[3px] shadow-lg shadow-primary-600/30"
-        style={{ background: "linear-gradient(135deg, #2563EB, #38BDF8, #2563EB)" }}
+        className="relative w-40 h-40 sm:w-44 sm:h-44 rounded-full p-[3px] shadow-xl shadow-primary-600/30"
+        style={{
+          animation: "glow-pulse 3s ease-in-out infinite",
+          background: "linear-gradient(135deg, #2563EB, #38BDF8, #2563EB)",
+        }}
       >
         <div className="w-full h-full rounded-full bg-[--bg-deep] flex items-center justify-center overflow-hidden">
           <img
