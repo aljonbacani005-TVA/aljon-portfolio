@@ -72,31 +72,25 @@ export function Avatar() {
   useEffect(() => {
     const tick = () => {
       // Smooth mouse tracking
-      const lerp = 0.1;
+      const lerp = 0.06;
       smoothRef.current.x += (mouseRef.current.x - smoothRef.current.x) * lerp;
       smoothRef.current.y += (mouseRef.current.y - smoothRef.current.y) * lerp;
 
       const { x, y } = smoothRef.current;
 
       // Map mouse position to frame
-      // X axis: primary driver (left-right gaze)
-      // Y axis: secondary modifier (up-down tilt)
-      // Center mouse = middle frames (looking at camera)
       const xNorm = (x - 0.5) * 2; // -1 to 1
       const yNorm = (y - 0.5) * 2; // -1 to 1
 
-      // Map X to base frame (frames 1-192)
-      // Center (0) = frame 96, Left (-1) = frame 1, Right (1) = frame 192
+      // Center mouse = middle frame, edges = extremes
       const baseFrame = 96 + xNorm * 95;
-
-      // Y axis shifts the frame range slightly for vertical gaze
       const yOffset = yNorm * 8;
 
       const target = Math.round(baseFrame + yOffset);
       const clamped = Math.max(1, Math.min(FRAME_COUNT, target));
 
-      // Smooth frame transition
-      const blend = 0.15;
+      // Very smooth frame transition
+      const blend = 0.08;
       currentFrame.current += (clamped - currentFrame.current) * blend;
       const frame = Math.round(currentFrame.current);
       const finalFrame = Math.max(1, Math.min(FRAME_COUNT, frame));
