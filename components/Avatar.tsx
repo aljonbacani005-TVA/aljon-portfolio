@@ -1,94 +1,107 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const FRAME_COUNT = 192;
+const FRAME_DIR = "/Avatar_frames";
 
 function framePath(index: number) {
-  return `/Avatar_frames/frame_${String(index).padStart(4, "0")}.webp`;
+  return `${FRAME_DIR}/frame_${String(Math.max(1, Math.min(FRAME_COUNT, index))).padStart(4, "0")}.webp`;
 }
 
 export function Avatar() {
-  const containerRef = useRef<HTMLDivElement>(null);
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
+  const smoothRef = useRef({ x: 0.5, y: 0.5 });
   const currentFrame = useRef(1);
   const rafRef = useRef<number | null>(null);
   const [displayFrame, setDisplayFrame] = useState(1);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
-  // Preload first few frames
+  // Preload first batch of frames
   useEffect(() => {
     let mounted = true;
-    const preloadCount = 5;
-    let loaded = 0;
+    let count = 0;
+    const total = 20;
 
-    for (let i = 1; i <= preloadCount; i++) {
+    for (let i = 1; i <= total; i++) {
       const img = new Image();
       img.src = framePath(i);
       img.onload = () => {
-        loaded++;
-        if (loaded >= preloadCount && mounted) setIsLoaded(true);
+        count++;
+        if (count >= total && mounted) setLoaded(true);
       };
       img.onerror = () => {
-        loaded++;
-        if (loaded >= preloadCount && mounted) setIsLoaded(true);
+        count++;
+        if (count >= total && mounted) setLoaded(true);
       };
     }
 
-    // Fallback
-    const timer = setTimeout(() => {
-      if (mounted) setIsLoaded(true);
-    }, 2000);
+    const fallback = setTimeout(() => {
+      if (mounted) setLoaded(true);
+    }, 3000);
 
     return () => {
       mounted = false;
-      clearTimeout(timer);
+      clearTimeout(fallback);
     };
   }, []);
 
-  // Track mouse position relative to viewport
+  // Track mouse
   useEffect(() => {
-    const handlePointerMove = (e: PointerEvent) => {
+    const onMove = (e: PointerEvent) => {
       mouseRef.current = {
-        x: Math.max(0, Math.min(1, e.clientX / window.innerWidth)),
-        y: Math.max(0, Math.min(1, e.clientY / window.innerHeight)),
+        x: e.clientX / window.innerWidth,
+        y: e.clientY / window.innerHeight,
       };
     };
 
-    const handlePointerLeave = () => {
+    const onLeave = () => {
       mouseRef.current = { x: 0.5, y: 0.5 };
     };
 
-    window.addEventListener("pointermove", handlePointerMove);
-    window.addEventListener("pointerleave", handlePointerLeave);
+    window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("pointerleave", onLeave);
 
     return () => {
-      window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("pointerleave", handlePointerLeave);
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerleave", onLeave);
     };
   }, []);
 
-  // Animation loop — map mouse position to frame
+  // Animation loop
   useEffect(() => {
     const tick = () => {
-      const { x, y } = mouseRef.current;
+      // Smooth mouse tracking
+      const lerp = 0.1;
+      smoothRef.current.x += (mouseRef.current.x - smoothRef.current.x) * lerp;
+      smoothRef.current.y += (mouseRef.current.y - smoothRef.current.y) * lerp;
 
-      // Map mouse X to frame range (left = early frames, right = later frames)
-      // Use Y to add subtle variation
-      const xMix = x;
-      const yMix = 0.3 + y * 0.4; // Weight Y less, keep it subtle
+      const { x, y } = smoothRef.current;
 
-      const target = Math.round(1 + xMix * (FRAME_COUNT - 1) * 0.8 + (yMix - 0.5) * 10);
+      // Map mouse position to frame
+      // X axis: primary driver (left-right gaze)
+      // Y axis: secondary modifier (up-down tilt)
+      // Center mouse = middle frames (looking at camera)
+      const xNorm = (x - 0.5) * 2; // -1 to 1
+      const yNorm = (y - 0.5) * 2; // -1 to 1
+
+      // Map X to base frame (frames 1-192)
+      // Center (0) = frame 96, Left (-1) = frame 1, Right (1) = frame 192
+      const baseFrame = 96 + xNorm * 95;
+
+      // Y axis shifts the frame range slightly for vertical gaze
+      const yOffset = yNorm * 8;
+
+      const target = Math.round(baseFrame + yOffset);
       const clamped = Math.max(1, Math.min(FRAME_COUNT, target));
 
-      // Smooth interpolation
-      const blend = 0.12;
-      currentFrame.current = Math.round(
-        currentFrame.current + (clamped - currentFrame.current) * blend
-      );
-      currentFrame.current = Math.max(1, Math.min(FRAME_COUNT, currentFrame.current));
+      // Smooth frame transition
+      const blend = 0.15;
+      currentFrame.current += (clamped - currentFrame.current) * blend;
+      const frame = Math.round(currentFrame.current);
+      const finalFrame = Math.max(1, Math.min(FRAME_COUNT, frame));
 
-      setDisplayFrame(currentFrame.current);
+      setDisplayFrame(finalFrame);
       rafRef.current = requestAnimationFrame(tick);
     };
 
@@ -100,24 +113,30 @@ export function Avatar() {
   }, []);
 
   return (
-    <div
-      ref={containerRef}
-      className="relative"
-    >
+    <div className="relative">
+      {/* Glow ring */}
       <div
-        className="w-28 h-28 rounded-full bg-[--bg-card] p-[3px] shadow-2xl shadow-primary-600/40"
-        style={{ animation: "glow-pulse 3s ease-in-out infinite" }}
+        className="w-32 h-32 rounded-full p-[3px] shadow-2xl shadow-primary-600/40"
+        style={{
+          animation: "glow-pulse 3s ease-in-out infinite",
+          background: "linear-gradient(135deg, #2563EB, #38BDF8, #2563EB)",
+        }}
       >
         <div className="w-full h-full rounded-full bg-[--bg-deep] flex items-center justify-center overflow-hidden">
           <img
             src={framePath(displayFrame)}
             alt="Aljon Bacani"
-            className={`w-full h-full object-cover transition-opacity duration-300 ${
-              isLoaded ? "opacity-100" : "opacity-0"
+            className={`w-full h-full object-cover select-none transition-opacity duration-500 ${
+              loaded ? "opacity-100" : "opacity-0"
             }`}
             draggable={false}
           />
         </div>
+      </div>
+
+      {/* Online indicator */}
+      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-[--bg-card] border border-[--border-subtle] text-xs text-[--text-muted]">
+        🟢 Online
       </div>
     </div>
   );
