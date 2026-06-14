@@ -32,3 +32,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Reference images
+1aa99bb8-2cae-494f-ae07-b19d8379c455.png

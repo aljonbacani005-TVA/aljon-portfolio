@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Settings } from "lucide-react";
 
 const links = [
   { label: "About", href: "#about" },
@@ -35,13 +35,12 @@ export function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-3 group">
-          <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-primary-600 to-primary-400 flex items-center justify-center font-bold text-sm shadow-lg shadow-primary-600/30 group-hover:shadow-primary-500/50 transition-shadow">
-            AA
-            <div className="absolute inset-0 rounded-xl bg-primary-500/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity" />
-          </div>
-          <div className="hidden sm:block">
-            <div className="text-xs font-semibold tracking-[0.2em] text-text-secondary uppercase">
+        <a href="#" className="flex items-center gap-2 group">
+          <div className="relative">
+            <div className="text-2xl font-extrabold bg-gradient-to-r from-glow-cyan to-primary-400 bg-clip-text text-transparent tracking-tight group-hover:opacity-80 transition-opacity">
+              AAIA
+            </div>
+            <div className="text-[9px] tracking-[0.25em] text-glow-cyan/60 uppercase font-medium">
               AI Automation
             </div>
           </div>
@@ -60,13 +59,18 @@ export function Navbar() {
           ))}
         </div>
 
-        {/* CTA */}
-        <a
-          href="#contact"
-          className="hidden md:inline-flex items-center gap-2 px-5 py-2 text-sm font-medium rounded-full bg-primary-600 hover:bg-primary-500 text-white shadow-lg shadow-primary-600/25 hover:shadow-primary-500/40 transition-all duration-200 hover:scale-[1.02]"
-        >
-          Let&apos;s Talk
-        </a>
+        {/* Right side */}
+        <div className="flex items-center gap-3">
+          <a
+            href="#contact"
+            className="hidden md:inline-flex items-center gap-2 px-5 py-2 text-sm font-medium rounded-full bg-primary-600 hover:bg-primary-500 text-white shadow-lg shadow-primary-600/25 hover:shadow-primary-500/40 transition-all duration-200 hover:scale-[1.02]"
+          >
+            Let&apos;s Talk
+          </a>
+          <button className="w-10 h-10 rounded-full border border-white/10 bg-white/[0.03] flex items-center justify-center text-text-muted hover:text-white hover:border-primary-500/30 transition-all">
+            <Settings size={18} />
+          </button>
+        </div>
 
         {/* Mobile menu button */}
         <button
