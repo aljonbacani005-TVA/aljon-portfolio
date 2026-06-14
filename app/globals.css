@@ -215,6 +215,43 @@ html[data-theme="light"] .aurora::after {
   50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.5), 0 0 80px rgba(59, 130, 246, 0.2); }
 }
 
+/* ===== Avatar GPU-optimized styles ===== */
+/* Spotlight: static blur (no animation on filter), opacity-only pulse */
+.avatar-spotlight {
+  background: rgba(37, 99, 235, 0.2);
+  filter: blur(48px);
+  will-change: opacity;
+  transform: translateZ(0);
+  animation: avatar-spotlight-pulse 3s ease-in-out infinite;
+}
+
+@keyframes avatar-spotlight-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* Ring glow: static box-shadow (rendered once), opacity pulse via pseudo-element */
+.avatar-ring {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.avatar-ring::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 9999px;
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.5), 0 0 80px rgba(59, 130, 246, 0.2);
+  opacity: 0.7;
+  pointer-events: none;
+  animation: avatar-ring-glow 3s ease-in-out infinite;
+}
+
+@keyframes avatar-ring-glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-12px); }
