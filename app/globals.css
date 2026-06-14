@@ -172,6 +172,43 @@ html[data-theme="light"] .aurora::after {
   opacity: 1;
 }
 
+/* ===== Spotlight pulse ===== */
+.spotlight {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.spotlight::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60%;
+  height: 60%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse, rgba(37, 99, 235, 0.12) 0%, rgba(56, 189, 248, 0.06) 30%, transparent 70%);
+  animation: spotlight-pulse 4s ease-in-out infinite;
+}
+
+.spotlight::after {
+  content: "";
+  position: absolute;
+  bottom: 10%;
+  right: 10%;
+  width: 40%;
+  height: 40%;
+  background: radial-gradient(ellipse, rgba(56, 189, 248, 0.08) 0%, transparent 60%);
+  animation: spotlight-pulse 5s ease-in-out infinite reverse;
+}
+
+@keyframes spotlight-pulse {
+  0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+}
+
 /* ===== Animations ===== */
 @keyframes glow-pulse {
   0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3), 0 0 60px rgba(59, 130, 246, 0.1); }

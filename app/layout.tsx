@@ -36,6 +36,7 @@ export default function RootLayout({
     <html lang="en" className={inter.variable} data-theme="dark">
       <body className="bg-bg-deep text-text-primary antialiased">
         <MouseEffects />
+        <div className="spotlight" />
         <div className="aurora" />
         <div className="noise" />
         {children}
