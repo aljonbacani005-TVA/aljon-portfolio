@@ -37,11 +37,28 @@ export function Navbar() {
         {/* Logo */}
         <a href="#" className="flex items-center gap-2 group">
           <div className="relative">
-            <div className="text-2xl font-extrabold bg-gradient-to-r from-glow-cyan to-primary-400 bg-clip-text text-transparent tracking-tight group-hover:opacity-80 transition-opacity">
-              AAIA
-            </div>
-            <div className="text-[9px] tracking-[0.25em] text-glow-cyan/60 uppercase font-medium">
-              AI Automation
+            {/* Logo glow */}
+            <div
+              className="absolute inset-0 -m-3 rounded-full pointer-events-none"
+              style={{
+                background: "rgba(37, 99, 235, 0.15)",
+                filter: "blur(20px)",
+                animation: "avatar-spotlight-pulse 3s ease-in-out infinite",
+              }}
+            />
+            <div className="relative">
+              <div
+                className="text-2xl font-extrabold bg-gradient-to-r from-glow-cyan to-primary-400 bg-clip-text text-transparent tracking-tight group-hover:opacity-80 transition-opacity"
+                style={{
+                  textShadow: "0 0 15px rgba(59,130,246,0.4), 0 0 30px rgba(59,130,246,0.2)",
+                  animation: "avatar-ring-glow 3s ease-in-out infinite",
+                }}
+              >
+                AAIA
+              </div>
+              <div className="text-[9px] tracking-[0.25em] text-glow-cyan/60 uppercase font-medium">
+                AI Automation
+              </div>
             </div>
           </div>
         </a>

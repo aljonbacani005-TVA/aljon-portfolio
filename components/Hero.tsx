@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUp, Calendar, Mail, Sparkles, Briefcase, Wrench, Heart, Sun, Moon, Loader2 } from "lucide-react";
+import { ArrowUp, Calendar, Mail, Briefcase, Wrench, Heart, Sun, Moon, Loader2 } from "lucide-react";
 import { Avatar } from "@/components/Avatar";
 import { useCalendly } from "@/lib/useCalendly";
 
@@ -146,10 +146,32 @@ export function Hero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary-500/25 bg-primary-600/10 text-sm text-[--text-primary] backdrop-blur-sm"
+          className="relative inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary-500/25 bg-primary-600/10 text-sm text-[--text-primary] backdrop-blur-sm"
         >
-          <Sparkles size={14} className="text-glow-cyan" />
-          Available for automation work
+          {/* Glow backdrop */}
+          <div
+            className="absolute inset-0 -m-4 rounded-full"
+            style={{
+              background: "rgba(37, 99, 235, 0.2)",
+              filter: "blur(40px)",
+              animation: "avatar-spotlight-pulse 3s ease-in-out infinite",
+            }}
+          />
+          {/* Ring glow */}
+          <div
+            className="absolute inset-0 -m-2 rounded-full pointer-events-none"
+            style={{
+              boxShadow: "0 0 20px rgba(59, 130, 246, 0.4), 0 0 50px rgba(59, 130, 246, 0.15)",
+              animation: "avatar-ring-glow 3s ease-in-out infinite",
+            }}
+          />
+          <span className="relative flex items-center gap-2">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
+            </span>
+            Available for automation work
+          </span>
         </motion.div>
 
         {/* Heading */}

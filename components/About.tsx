@@ -53,16 +53,11 @@ export function About() {
             >
               <div className="h-16 sm:h-20 flex items-center justify-center mb-2">
                 <span
-                  className={`font-black leading-none bg-gradient-to-b from-white to-white/80 bg-clip-text text-transparent ${
+                  className={`font-black leading-none bg-clip-text text-transparent bg-gradient-to-b dark:from-white dark:to-white/80 from-gray-900 to-gray-600 ${
                     stat.special
-                      ? "text-6xl sm:text-7xl animate-pulse-slow"
-                      : "text-4xl sm:text-5xl"
+                      ? "text-6xl sm:text-7xl animate-pulse-slow dark:[text-shadow:0_0_25px_rgba(59,130,246,0.5),0_0_50px_rgba(59,130,246,0.25),0_0_80px_rgba(59,130,246,0.1)] [text-shadow:0_0_15px_rgba(59,130,246,0.2),0_0_30px_rgba(59,130,246,0.1)]"
+                      : "text-4xl sm:text-5xl dark:[text-shadow:0_0_20px_rgba(59,130,246,0.35),0_0_40px_rgba(59,130,246,0.15)] [text-shadow:0_0_10px_rgba(59,130,246,0.15),0_0_20px_rgba(59,130,246,0.08)]"
                   }`}
-                  style={{
-                    textShadow: stat.special
-                      ? "0 0 25px rgba(59,130,246,0.5), 0 0 50px rgba(59,130,246,0.25), 0 0 80px rgba(59,130,246,0.1)"
-                      : "0 0 20px rgba(59,130,246,0.35), 0 0 40px rgba(59,130,246,0.15)",
-                  }}
                 >
                   {stat.value}
                 </span>
