@@ -50,9 +50,12 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-600 to-primary-400 flex items-center justify-center text-xs font-bold">
-              AA
-            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/favicon.svg"
+              alt="AAIA Logo"
+              className="w-8 h-8"
+            />
             <span className="text-sm text-[--text-muted]">
               © 2026 Aljon Bacani. All rights reserved.
             </span>
@@ -79,10 +82,10 @@ export function Footer() {
                 href={s.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-lg border border-glow bg-[--surface] flex items-center justify-center text-[--text-muted] hover:text-[--text-primary] hover:border-primary-500/30 hover:bg-primary-600/5 transition-all duration-200"
+                className="w-11 h-11 rounded-lg border border-glow bg-[--surface] flex items-center justify-center text-[--text-muted] hover:text-[--text-primary] hover:border-primary-500/30 hover:bg-primary-600/5 transition-all duration-200"
                 aria-label={s.label}
               >
-                <s.icon size={16} />
+                <s.icon size={22} />
               </a>
             ))}
           </div>

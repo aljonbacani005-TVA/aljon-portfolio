@@ -146,13 +146,13 @@ export function Hero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="relative inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary-500/25 bg-primary-600/10 text-sm text-[--text-primary] backdrop-blur-sm"
+          className="relative inline-flex items-center gap-2 px-4 py-2 rounded-full border border-green-500/25 bg-green-600/10 text-sm text-[--text-primary] backdrop-blur-sm"
         >
           {/* Glow backdrop */}
           <div
             className="absolute inset-0 -m-4 rounded-full"
             style={{
-              background: "rgba(37, 99, 235, 0.2)",
+              background: "rgba(34, 197, 94, 0.2)",
               filter: "blur(40px)",
               animation: "avatar-spotlight-pulse 3s ease-in-out infinite",
             }}
@@ -161,7 +161,7 @@ export function Hero() {
           <div
             className="absolute inset-0 -m-2 rounded-full pointer-events-none"
             style={{
-              boxShadow: "0 0 20px rgba(59, 130, 246, 0.4), 0 0 50px rgba(59, 130, 246, 0.15)",
+              boxShadow: "0 0 20px rgba(34, 197, 94, 0.4), 0 0 50px rgba(34, 197, 94, 0.15)",
               animation: "avatar-ring-glow 3s ease-in-out infinite",
             }}
           />
