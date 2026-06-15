@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUp, Calendar, Mail, Sparkles, Briefcase, Wrench, Heart, Sun, Moon, Loader2, Copy, Check } from "lucide-react";
+import { ArrowUp, Calendar, Mail, Sparkles, Briefcase, Wrench, Heart, Sun, Moon, Loader2 } from "lucide-react";
 import { Avatar } from "@/components/Avatar";
 import { useCalendly } from "@/lib/useCalendly";
 
@@ -50,7 +50,6 @@ export function Hero() {
   const [isStreaming, setIsStreaming] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
-  const [copiedEmail, setCopiedEmail] = useState(false);
   const { openCalendly } = useCalendly();
   const bottomRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -276,25 +275,11 @@ export function Hero() {
           className="flex gap-3"
         >
           <a
-            href="mailto:aljonbacani005@gmail.com"
+            href="mailto:aljonbacani005@gmail.com?subject=Automation%20Consultation&body=Hi%20Aljon%2C%0A%0AI'd%20like%20to%20discuss%20an%20automation%20project."
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full border-glow bg-[--surface] text-sm text-[--text-secondary] hover:text-[--text-primary] hover:bg-primary-600/10 transition-all duration-200"
           >
             <Mail size={16} />
-            Email me here — aljonbacani005@gmail.com
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                navigator.clipboard.writeText("aljonbacani005@gmail.com");
-                setCopiedEmail(true);
-                setTimeout(() => setCopiedEmail(false), 2000);
-              }}
-              className="ml-1 p-1 rounded hover:bg-white/10 transition-colors"
-              aria-label="Copy email"
-            >
-              {copiedEmail ? <Check size={14} className="text-green-400" /> : <Copy size={14} />}
-            </button>
+            Email me
           </a>
           <button
             type="button"

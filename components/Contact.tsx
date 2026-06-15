@@ -43,7 +43,7 @@ export function Contact() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="mailto:aljonbacani005@gmail.com"
+                href="mailto:aljonbacani005@gmail.com?subject=Automation%20Consultation&body=Hi%20Aljon%2C%0A%0AI'd%20like%20to%20discuss%20an%20automation%20project."
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-primary-600 hover:bg-primary-500 text-white font-semibold shadow-xl shadow-primary-600/25 hover:shadow-primary-500/40 transition-all duration-200 hover:scale-[1.02]"
               >
                 <Mail size={18} />
