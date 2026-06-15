@@ -44,10 +44,10 @@ export function Contact() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="mailto:aljonbacani005@gmail.com?subject=Automation%20Consultation&body=Hi%20Aljon%2C%0A%0AI'd%20like%20to%20discuss%20an%20automation%20project."
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-primary-600 hover:bg-primary-500 text-white font-semibold shadow-xl shadow-primary-600/25 hover:shadow-primary-500/40 transition-all duration-200 hover:scale-[1.02]"
+                className="inline-flex items-center justify-center gap-2 px-5 sm:px-8 py-3 sm:py-4 rounded-full bg-primary-600 hover:bg-primary-500 text-white font-semibold shadow-xl shadow-primary-600/25 hover:shadow-primary-500/40 transition-all duration-200 hover:scale-[1.02] text-xs sm:text-base max-w-full"
               >
-                <Mail size={18} />
-                Email Me Here — aljonbacani005@gmail.com
+                <Mail size={16} className="shrink-0" />
+                <span className="truncate">Email Me Here — aljonbacani005@gmail.com</span>
                 <button
                   type="button"
                   onClick={(e) => {
@@ -57,17 +57,17 @@ export function Contact() {
                     setCopiedEmail(true);
                     setTimeout(() => setCopiedEmail(false), 2000);
                   }}
-                  className="ml-1 p-1 rounded hover:bg-white/20 transition-colors"
+                  className="ml-1 p-1 rounded hover:bg-white/20 transition-colors shrink-0"
                   aria-label="Copy email"
                 >
                   {copiedEmail ? <Check size={16} className="text-green-300" /> : <Copy size={16} />}
                 </button>
-                <ArrowRight size={16} />
+                <ArrowRight size={16} className="shrink-0" />
               </a>
               <button
                 type="button"
                 onClick={openCalendly}
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border-glow bg-[--surface] text-[--text-secondary] hover:text-[--text-primary] hover:border-primary-500/30 hover:bg-primary-600/5 font-semibold backdrop-blur-sm transition-all duration-200 hover:scale-[1.02] cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-5 sm:px-8 py-3 sm:py-4 rounded-full border-glow bg-[--surface] text-[--text-secondary] hover:text-[--text-primary] hover:border-primary-500/30 hover:bg-primary-600/5 font-semibold backdrop-blur-sm transition-all duration-200 hover:scale-[1.02] cursor-pointer text-xs sm:text-base"
               >
                 <Calendar size={18} />
                 Book Discovery Call

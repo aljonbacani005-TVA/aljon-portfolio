@@ -5,7 +5,7 @@ import { Zap, Bot, Workflow, ArrowRight } from "lucide-react";
 
 const stats = [
   { value: "10+", label: "Automations Built" },
-  { value: "5+", label: "Platforms Mastered" },
+  { value: "∞", label: "Automation Potential", special: true },
   { value: "10k+", label: "Hours Saved" },
   { value: "99%", label: "Uptime" },
 ];
@@ -51,11 +51,21 @@ export function About() {
               key={stat.label}
               className="relative group rounded-2xl border-glow bg-[--surface] p-6 text-center hover:border-primary-500/20 hover:bg-primary-600/5 transition-all duration-300"
             >
-              <div
-                className="text-4xl sm:text-5xl font-black mb-2 bg-gradient-to-b from-white to-white/80 bg-clip-text text-transparent"
-                style={{ textShadow: "0 0 20px rgba(59,130,246,0.35), 0 0 40px rgba(59,130,246,0.15)" }}
-              >
-                {stat.value}
+              <div className="h-16 sm:h-20 flex items-center justify-center mb-2">
+                <span
+                  className={`font-black leading-none bg-gradient-to-b from-white to-white/80 bg-clip-text text-transparent ${
+                    stat.special
+                      ? "text-6xl sm:text-7xl animate-pulse-slow"
+                      : "text-4xl sm:text-5xl"
+                  }`}
+                  style={{
+                    textShadow: stat.special
+                      ? "0 0 25px rgba(59,130,246,0.5), 0 0 50px rgba(59,130,246,0.25), 0 0 80px rgba(59,130,246,0.1)"
+                      : "0 0 20px rgba(59,130,246,0.35), 0 0 40px rgba(59,130,246,0.15)",
+                  }}
+                >
+                  {stat.value}
+                </span>
               </div>
               <div className="text-sm text-[--text-muted]">{stat.label}</div>
             </div>
