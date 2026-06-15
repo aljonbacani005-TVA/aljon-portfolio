@@ -46,6 +46,12 @@ export default function RootLayout({
       data-theme="dark"
       suppressHydrationWarning
     >
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://assets.calendly.com/assets/external/widget.css"
+        />
+      </head>
       <body
         className="bg-bg-deep text-text-primary antialiased"
         suppressHydrationWarning

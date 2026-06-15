@@ -296,14 +296,14 @@ export function Hero() {
               {copiedEmail ? <Check size={14} className="text-green-400" /> : <Copy size={14} />}
             </button>
           </a>
-          <a
-            href="#"
+          <button
+            type="button"
             onClick={openCalendly}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border-glow bg-[--surface] text-sm text-[--text-secondary] hover:text-[--text-primary] hover:bg-primary-600/10 transition-all duration-200"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border-glow bg-[--surface] text-sm text-[--text-secondary] hover:text-[--text-primary] hover:bg-primary-600/10 transition-all duration-200 cursor-pointer"
           >
             <Calendar size={16} />
-            📅 Book Discovery Call
-          </a>
+            Book Discovery Call
+          </button>
         </motion.div>
 
         {/* Bottom text */}

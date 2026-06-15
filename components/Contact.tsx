@@ -64,14 +64,14 @@ export function Contact() {
                 </button>
                 <ArrowRight size={16} />
               </a>
-              <a
-                href="#"
+              <button
+                type="button"
                 onClick={openCalendly}
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border-glow bg-[--surface] text-[--text-secondary] hover:text-[--text-primary] hover:border-primary-500/30 hover:bg-primary-600/5 font-semibold backdrop-blur-sm transition-all duration-200 hover:scale-[1.02]"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border-glow bg-[--surface] text-[--text-secondary] hover:text-[--text-primary] hover:border-primary-500/30 hover:bg-primary-600/5 font-semibold backdrop-blur-sm transition-all duration-200 hover:scale-[1.02] cursor-pointer"
               >
                 <Calendar size={18} />
-                📅 Book Discovery Call
-              </a>
+                Book Discovery Call
+              </button>
             </div>
           </div>
         </motion.div>
