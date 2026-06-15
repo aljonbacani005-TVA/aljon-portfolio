@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import { Zap, Bot, Workflow, ArrowRight } from "lucide-react";
 
 const stats = [
-  { value: "50+", label: "Automations Built" },
-  { value: "20+", label: "Happy Clients" },
+  { value: "10+", label: "Automations Built" },
+  { value: "5+", label: "Platforms Mastered" },
   { value: "10k+", label: "Hours Saved" },
   { value: "99%", label: "Uptime" },
 ];
@@ -51,7 +51,10 @@ export function About() {
               key={stat.label}
               className="relative group rounded-2xl border-glow bg-[--surface] p-6 text-center hover:border-primary-500/20 hover:bg-primary-600/5 transition-all duration-300"
             >
-              <div className="text-3xl sm:text-4xl font-extrabold text-[--text-primary] mb-2">
+              <div
+                className="text-4xl sm:text-5xl font-black mb-2 bg-gradient-to-b from-white to-white/80 bg-clip-text text-transparent"
+                style={{ textShadow: "0 0 20px rgba(59,130,246,0.35), 0 0 40px rgba(59,130,246,0.15)" }}
+              >
                 {stat.value}
               </div>
               <div className="text-sm text-[--text-muted]">{stat.label}</div>

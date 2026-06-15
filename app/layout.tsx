@@ -21,6 +21,13 @@ export const metadata: Metadata = {
     "CRM Automation",
     "Aljon Bacani",
   ],
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/icon.svg", type: "image/svg+xml", sizes: "any" },
+    ],
+    apple: "/icon.svg",
+  },
   openGraph: {
     title: "Aljon Bacani | AI Automation Specialist",
     description:

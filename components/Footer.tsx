@@ -1,30 +1,32 @@
 "use client";
 
-import { Linkedin, Twitter, Heart } from "lucide-react";
+import { Linkedin } from "lucide-react";
 
 function UpworkIcon({ size = 16 }: { size?: number }) {
   return (
     <svg
       width={size}
       height={size}
-      viewBox="0 0 68 68"
-      fill="none"
+      viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="34" cy="34" r="34" fill="#14a800" />
       <path
-        d="M22.5 26.2c0-1.3.7-2.3 1.9-2.8.8-.3 1.7-.5 2.6-.5 1.7 0 3.1.5 4.1 1.4v14.5c0 2.5-1.3 4-3.6 4-1.1 0-2.1-.3-3-1l-2 7.1c1.2.8 2.8 1.3 4.6 1.3 3.7 0 6.3-2.2 6.3-6.4v-16h-3.9v15.5c0 1.9-.8 2.8-2 2.8-.8 0-1.4-.3-2-.7l-.5 1.7c.9.6 2.2 1 3.6 1 2.9 0 4.8-1.7 4.8-4.8v-15.5h-7v7.7z"
-        fill="white"
-      />
-      <path
-        d="M39.3 17.9v19.5c0 2.5 1.2 4 3.5 4 1 0 2-.3 2.9-.8l.8 2.5c-1.2.6-2.6 1-4.2 1-3.9 0-6.2-2.2-6.2-6.4v-19.8h3.2z"
-        fill="white"
-      />
-      <path
-        d="M47.6 27.5c3.5 0 5.8 2.4 5.8 6.3 0 3.8-2.3 6.2-5.8 6.2-3.4 0-5.7-2.4-5.7-6.2 0-3.9 2.3-6.3 5.7-6.3zm0 10c2.4 0 2.8-3.2 2.8-3.8 0-.6-.4-3.7-2.8-3.7-2.4 0-2.8 3.1-2.8 3.7 0 .6-.4 3.8 2.8 3.8z"
-        fill="white"
+        d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703-.001 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c-.002 1.406-1.141 2.546-2.547 2.548-1.405-.002-2.543-1.143-2.545-2.548V3.492H0v7.112c0 2.914 2.37 5.303 5.281 5.303 2.913 0 5.283-2.389 5.283-5.303v-1.19c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.686 1.109 3 0 5.439-2.452 5.439-5.45 0-3-2.439-5.439-5.439-5.439z"
+        fill="#14a800"
       />
     </svg>
+  );
+}
+
+function OnlineJobsIcon({ size = 16 }: { size?: number }) {
+  return (
+    <img
+      src="/olj-logo.webp"
+      alt="OnlineJobs.ph"
+      width={size}
+      height={size}
+      className="object-contain"
+    />
   );
 }
 
@@ -37,8 +39,8 @@ const links = [
 
 const socials = [
   { icon: UpworkIcon, href: "https://www.upwork.com/freelancers/~0141b6eeb3ade39241?mp_source=share", label: "Upwork" },
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
-  { icon: Twitter, href: "#", label: "Twitter" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/aljon-bacani-1ba743215/", label: "LinkedIn" },
+  { icon: OnlineJobsIcon, href: "https://v2.onlinejobs.ph/jobseekers/info/4898958", label: "OnlineJobs.ph" },
 ];
 
 export function Footer() {

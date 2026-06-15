@@ -217,7 +217,7 @@ export const Avatar = memo(function Avatar() {
 
       {/* Ring — static gradient, glow via ::after pseudo-element */}
       <div
-        className="avatar-ring relative w-40 h-40 sm:w-44 sm:h-44 rounded-full p-[3px]"
+        className="avatar-ring relative w-48 h-40 sm:w-52 sm:h-44 rounded-full p-[3px]"
         style={{
           background:
             "linear-gradient(135deg, #2563EB, #38BDF8, #2563EB)",
@@ -226,7 +226,7 @@ export const Avatar = memo(function Avatar() {
         <div className="w-full h-full rounded-full bg-[--bg-deep] flex items-center justify-center overflow-hidden">
           <canvas
             ref={canvasRef}
-            width={352}
+            width={422}
             height={352}
             className="w-full h-full select-none"
             style={{

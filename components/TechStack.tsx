@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import {
   SiOpenai,
   SiZapier,
+  SiMake,
+  SiN8N,
   SiAirtable,
   SiNotion,
   SiAsana,
@@ -12,14 +14,14 @@ import {
   SiGoogle,
   SiStripe,
 } from "react-icons/si";
-import { Bot, Workflow, Box } from "lucide-react";
+import { Bot } from "lucide-react";
 
 const techStack = [
   { name: "OpenAI", icon: SiOpenai, color: "#10B981" },
   { name: "Claude", icon: Bot, color: "#D97706" },
   { name: "Zapier", icon: SiZapier, color: "#FF4F00" },
-  { name: "Make", icon: Workflow, color: "#6D28D9" },
-  { name: "n8n", icon: Box, color: "#EA580C" },
+  { name: "Make", icon: SiMake, color: "#6D28D9" },
+  { name: "n8n", icon: SiN8N, color: "#EA580C" },
   { name: "Airtable", icon: SiAirtable, color: "#F59E0B" },
   { name: "Notion", icon: SiNotion, color: "#FFFFFF" },
   { name: "Asana", icon: SiAsana, color: "#F06A6A" },

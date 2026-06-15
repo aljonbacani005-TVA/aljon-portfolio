@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="brand" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#00d4ff"/>
+      <stop offset="45%" stop-color="#0099ff"/>
+      <stop offset="100%" stop-color="#0047ff"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"/>
+      <feColorMatrix in="blur" type="matrix"
+        values="0 0 0 0 0
+                0 0 0 0 0.5
+                0 0 0 0 1
+                0 0 0 0.35 0" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="highlight" x1="0.3" y1="0" x2="0.7" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <g filter="url(#glow)">
+    <path fill-rule="evenodd" d="M256 52L52 460L132 460L188 330L324 330L380 460L460 460ZM256 158L198 306L314 306Z" fill="url(#brand)"/>
+  </g>
+  <path opacity="0.12" d="M256 52L52 460L132 460L188 330L256 158Z" fill="url(#highlight)"/>
+  <circle cx="256" cy="34" r="12" fill="#00d4ff" opacity="0.85"/>
+  <circle cx="256" cy="34" r="6" fill="#ffffff" opacity="0.3"/>
+</svg>
