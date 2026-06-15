@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   SiOpenai,
@@ -31,6 +32,109 @@ const techStack = [
   { name: "Stripe", icon: SiStripe, color: "#635BFF" },
 ];
 
+/* ── Single card ──────────────────────────────────────────── */
+
+function TechCard({ tech }: { tech: (typeof techStack)[number] }) {
+  return (
+    <div className="group relative flex flex-col items-center gap-3 p-5 rounded-2xl border-glow bg-[--surface] hover:bg-primary-600/5 transition-all duration-300 hover:-translate-y-1 shrink-0 w-[140px] sm:w-[160px]">
+      <div
+        className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+        style={{ color: tech.color }}
+      >
+        <tech.icon size={28} />
+      </div>
+      <span className="text-xs text-[--text-muted] group-hover:text-[--text-secondary] transition-colors whitespace-nowrap">
+        {tech.name}
+      </span>
+    </div>
+  );
+}
+
+/* ── Marquee row ──────────────────────────────────────────── */
+
+function MarqueeRow({
+  direction,
+  speed,
+}: {
+  direction: "left" | "right";
+  speed: number;
+}) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [paused, setPaused] = useState(false);
+  const posRef = useRef(0);
+  const rafRef = useRef<number | null>(null);
+  const lastTimeRef = useRef<number>(0);
+
+  const startAnimation = useCallback(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const halfWidth = track.scrollWidth / 2;
+    const dir = direction === "left" ? -1 : 1;
+
+    const tick = (now: number) => {
+      if (!lastTimeRef.current) lastTimeRef.current = now;
+      const delta = now - lastTimeRef.current;
+      lastTimeRef.current = now;
+
+      if (!paused) {
+        posRef.current += dir * speed * (delta / 1000);
+
+        // Reset position seamlessly when one full set has scrolled
+        if (dir === -1 && posRef.current <= -halfWidth) {
+          posRef.current += halfWidth;
+        } else if (dir === 1 && posRef.current >= 0) {
+          posRef.current -= halfWidth;
+        }
+
+        track.style.transform = `translate3d(${posRef.current}px, 0, 0)`;
+      }
+
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+  }, [direction, speed, paused]);
+
+  useEffect(() => {
+    startAnimation();
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [startAnimation]);
+
+  // Pause / resume via refs to avoid re-starting the loop
+  const onEnter = useCallback(() => setPaused(true), []);
+  const onLeave = useCallback(() => setPaused(false), []);
+
+  return (
+    <div
+      className="overflow-hidden py-2"
+      onMouseEnter={onEnter}
+      onMouseLeave={onLeave}
+      onTouchStart={onEnter}
+      onTouchEnd={onLeave}
+    >
+      <div
+        ref={trackRef}
+        className="flex gap-4 will-change-transform"
+        style={{ transform: "translate3d(0,0,0)" }}
+      >
+        {/* First set */}
+        {techStack.map((tech) => (
+          <TechCard key={tech.name} tech={tech} />
+        ))}
+        {/* Duplicate for seamless loop */}
+        {techStack.map((tech) => (
+          <TechCard key={`${tech.name}-dup`} tech={tech} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── Main component ───────────────────────────────────────── */
+
 export function TechStack() {
   return (
     <section id="techstack" className="relative py-24 px-6">
@@ -57,28 +161,8 @@ export function TechStack() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
-          {techStack.map((tech, i) => (
-            <motion.div
-              key={tech.name}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.05 }}
-              className="group relative flex flex-col items-center gap-3 p-5 rounded-2xl border-glow bg-[--surface] hover:bg-primary-600/5 transition-all duration-300 hover:-translate-y-1"
-            >
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-                style={{ color: tech.color }}
-              >
-                <tech.icon size={28} />
-              </div>
-              <span className="text-xs text-[--text-muted] group-hover:text-[--text-secondary] transition-colors">
-                {tech.name}
-              </span>
-            </motion.div>
-          ))}
-        </div>
+        {/* Infinite marquee — scrolls left */}
+        <MarqueeRow direction="left" speed={40} />
       </div>
     </section>
   );
