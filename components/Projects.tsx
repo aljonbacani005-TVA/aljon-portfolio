@@ -2,7 +2,7 @@
 
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect, useCallback } from "react";
-import { ArrowUpRight, X } from "lucide-react";
+import { ArrowUpRight, X, Eye } from "lucide-react";
 
 /* ── Platform SVG logos ──────────────────────────────────── */
 
@@ -39,9 +39,9 @@ interface PlatformSection {
   name: string;
   subtitle: string;
   logo: React.ReactNode;
-  glowColor: string; // Tailwind ring/shadow utility
-  hoverBorder: string; // hover:border-*
-  hoverShadow: string; // hover:shadow-*
+  glowColor: string;
+  hoverBorder: string;
+  hoverShadow: string;
   tagBg: string;
   tagBorder: string;
   tagText: string;
@@ -212,25 +212,23 @@ function StaggerCard({
 
 /* ── Image modal ───────────────────────────────────────── */
 
-function ImageModal({
+function ProjectModal({
   open,
   onClose,
-  src,
-  alt,
+  project,
+  platform,
 }: {
   open: boolean;
   onClose: () => void;
-  src: string;
-  alt: string;
+  project: Project | null;
+  platform: PlatformSection | null;
 }) {
-  /* Close on ESC */
   useEffect(() => {
     if (!open) return;
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
     document.addEventListener("keydown", handler);
-    /* Prevent body scroll while modal is open */
     document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", handler);
@@ -238,11 +236,13 @@ function ImageModal({
     };
   }, [open, onClose]);
 
+  if (!project || !platform) return null;
+
   return (
     <AnimatePresence>
       {open && (
         <motion.div
-          key="image-modal-overlay"
+          key="project-modal-overlay"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -250,34 +250,63 @@ function ImageModal({
           className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8"
           onClick={onClose}
         >
-          {/* Backdrop */}
           <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
 
-          {/* Close button */}
           <button
             onClick={onClose}
-            aria-label="Close image preview"
+            aria-label="Close preview"
             className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
           >
             <X size={24} />
           </button>
 
-          {/* Image container */}
           <motion.div
-            key="image-modal-content"
-            initial={{ opacity: 0, scale: 0.92 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.92 }}
+            key="project-modal-content"
+            initial={{ opacity: 0, scale: 0.92, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.92, y: 20 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="relative z-10 max-w-5xl w-full"
+            className="relative z-10 max-w-4xl w-full max-h-[90vh] overflow-y-auto rounded-2xl bg-[--bg-deep] border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.5)]"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={src}
-              alt={alt}
-              className="w-full h-auto rounded-2xl shadow-[0_0_60px_rgba(0,0,0,0.5)] object-contain max-h-[85vh]"
-            />
+            {project.image && (
+              <div className="relative w-full aspect-video overflow-hidden rounded-t-2xl">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[--bg-deep] via-transparent to-transparent" />
+              </div>
+            )}
+
+            <div className="p-6 sm:p-8">
+              <span
+                className={`inline-flex items-center px-2.5 py-0.5 text-[11px] font-medium rounded-full border ${platform.categoryBorder} ${platform.categoryBg} ${platform.categoryText} tracking-wide uppercase mb-4`}
+              >
+                {project.category}
+              </span>
+
+              <h3 className="text-2xl sm:text-3xl font-bold text-[--text-primary] mb-4">
+                {project.title}
+              </h3>
+
+              <p className="text-[--text-secondary] leading-relaxed mb-6 text-base">
+                {project.desc}
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+                {project.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className={`px-3 py-1.5 text-xs font-medium rounded-full border ${platform.tagBorder} ${platform.tagBg} ${platform.tagText}`}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
           </motion.div>
         </motion.div>
       )}
@@ -288,19 +317,25 @@ function ImageModal({
 /* ── Main component ──────────────────────────────────────── */
 
 export function Projects() {
-  const [modalImage, setModalImage] = useState<{ src: string; alt: string } | null>(null);
+  const [modalData, setModalData] = useState<{
+    project: Project;
+    platform: PlatformSection;
+  } | null>(null);
 
-  const openModal = useCallback((src: string, alt: string) => setModalImage({ src, alt }), []);
-  const closeModal = useCallback(() => setModalImage(null), []);
+  const openModal = useCallback(
+    (project: Project, platform: PlatformSection) =>
+      setModalData({ project, platform }),
+    []
+  );
+  const closeModal = useCallback(() => setModalData(null), []);
 
   return (
     <section id="projects" className="relative py-24 px-6">
-      {/* Image preview modal */}
-      <ImageModal
-        open={!!modalImage}
+      <ProjectModal
+        open={!!modalData}
         onClose={closeModal}
-        src={modalImage?.src ?? ""}
-        alt={modalImage?.alt ?? ""}
+        project={modalData?.project ?? null}
+        platform={modalData?.platform ?? null}
       />
 
       <div className="max-w-6xl mx-auto">
@@ -321,8 +356,11 @@ export function Projects() {
               Work
             </span>
           </h2>
-          <p className="max-w-xl mx-auto text-[--text-muted] text-lg">
+          <p className="max-w-xl mx-auto text-[--text-muted] text-lg mb-3">
             Real automations that saved businesses time, money, and headaches — built across three leading platforms.
+          </p>
+          <p className="max-w-lg mx-auto text-[--text-muted]/70 text-sm">
+            Click any project to view a larger preview and workflow details.
           </p>
         </motion.div>
 
@@ -357,7 +395,7 @@ export function Projects() {
             </motion.p>
 
             {/* Project cards grid */}
-            <div className="grid md:grid-cols-2 gap-5">
+            <div className="grid md:grid-cols-2 gap-4">
               {platform.projects.map((project, i) => (
                 <StaggerCard
                   key={project.title}
@@ -365,52 +403,86 @@ export function Projects() {
                   className="group relative"
                 >
                   <div
+                    role="button"
+                    tabIndex={0}
                     className={`
-                      relative h-full rounded-2xl
+                      relative rounded-2xl
                       border border-white/[0.06] bg-[--surface]
                       backdrop-blur-sm
                       ${platform.hoverBorder} ${platform.hoverShadow}
+                      active:border-primary-500/30 active:shadow-[0_0_30px_rgba(59,130,246,0.15)]
                       transition-all duration-300 ease-out
                       hover:-translate-y-1 hover:bg-[--surface-hover]
+                      active:translate-y-0 active:bg-[--surface-hover]
                       overflow-hidden
                       ${project.image ? "cursor-pointer" : ""}
                     `}
                     onClick={
                       project.image
-                        ? () => openModal(project.image!, `${project.title} preview`)
+                        ? () => openModal(project, platform)
+                        : undefined
+                    }
+                    onKeyDown={
+                      project.image
+                        ? (e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              openModal(project, platform);
+                            }
+                          }
                         : undefined
                     }
                   >
                     {/* Hover gradient glow */}
                     <div
-                      className={`absolute inset-0 bg-gradient-to-br ${platform.gradientFrom} ${platform.gradientTo} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}
+                      className={`absolute inset-0 bg-gradient-to-br ${platform.gradientFrom} ${platform.gradientTo} opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-500 pointer-events-none`}
                     />
 
                     {/* Top accent line */}
                     <div
-                      className="absolute top-0 left-0 right-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      className="absolute top-0 left-0 right-0 h-px opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-500 z-10"
                       style={{
                         background: `linear-gradient(90deg, transparent, ${platform.glowColor}, transparent)`,
                       }}
                     />
 
-                    <div className="relative p-6 flex flex-col h-full">
+                    {/* Project image */}
+                    {project.image && (
+                      <div className="relative w-full h-36 overflow-hidden">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={project.image}
+                          alt={project.title}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.05] group-active:scale-[1.05]"
+                        />
+                        {/* Dark gradient overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-[--surface] via-[--surface]/30 to-transparent" />
+
+                        {/* Preview badge */}
+                        <div className="absolute top-2.5 right-2.5 flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-sm border border-white/10 text-white text-[10px] font-medium opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-300">
+                          <Eye size={10} />
+                          Preview
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="relative p-4 flex flex-col">
                       {/* Title row */}
-                      <div className="flex items-start justify-between mb-3">
-                        <h4 className="text-lg font-semibold text-[--text-primary] group-hover:text-[--text-primary] transition-colors leading-snug pr-2">
+                      <div className="flex items-start justify-between mb-2">
+                        <h4 className="text-[15px] font-semibold text-[--text-primary] group-hover:text-[--text-primary] transition-colors leading-snug pr-2">
                           {project.title}
                         </h4>
                         <ArrowUpRight
-                          size={18}
+                          size={15}
                           className="text-[--text-muted] group-hover:text-[--text-secondary] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all flex-shrink-0 mt-0.5"
                         />
                       </div>
 
                       {/* Category badge */}
-                      <div className="mb-3">
+                      <div className="mb-2">
                         <span
                           className={`
-                            inline-flex items-center px-2.5 py-0.5 text-[11px] font-medium rounded-full
+                            inline-flex items-center px-2 py-0.5 text-[10px] font-medium rounded-full
                             border ${platform.categoryBorder} ${platform.categoryBg} ${platform.categoryText}
                             tracking-wide uppercase
                           `}
@@ -420,17 +492,17 @@ export function Projects() {
                       </div>
 
                       {/* Description */}
-                      <p className="text-sm text-[--text-muted] leading-relaxed mb-5 flex-1">
+                      <p className="text-xs text-[--text-muted] leading-relaxed mb-3">
                         {project.desc}
                       </p>
 
-                      {/* Tech tags */}
-                      <div className="flex flex-wrap gap-2">
+                      {/* Tech tags + CTA row */}
+                      <div className="flex flex-wrap items-center gap-1.5">
                         {project.tags.map((tag) => (
                           <span
                             key={tag}
                             className={`
-                              px-2.5 py-1 text-[11px] font-medium rounded-full
+                              px-2 py-0.5 text-[10px] font-medium rounded-full
                               border ${platform.tagBorder} ${platform.tagBg} ${platform.tagText}
                               transition-colors duration-200
                             `}
@@ -438,19 +510,14 @@ export function Projects() {
                             {tag}
                           </span>
                         ))}
-                      </div>
 
-                      {/* Click to preview hint */}
-                      {project.image && (
-                        <div className="absolute bottom-3 right-4 flex items-center gap-1.5 text-[10px] text-[--text-muted] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <rect x="3" y="3" width="18" height="18" rx="2" />
-                            <circle cx="8.5" cy="8.5" r="1.5" />
-                            <path d="M21 15l-5-5L5 21" />
-                          </svg>
-                          Click to preview
-                        </div>
-                      )}
+                        {project.image && (
+                          <span className="ml-auto flex items-center gap-1 text-[10px] text-primary-400 font-medium opacity-70 group-hover:opacity-100 transition-opacity">
+                            View
+                            <ArrowUpRight size={10} />
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </StaggerCard>
