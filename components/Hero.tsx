@@ -172,13 +172,13 @@ export function Hero() {
 
       <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-[55%_45%] gap-8 lg:gap-16 items-center">
         {/* LEFT COLUMN — Content */}
-        <div className="flex flex-col gap-5 order-1">
+        <div className="flex flex-col items-center gap-5 order-1">
         {/* Badge with animated glow pulse */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          className="relative inline-flex items-center gap-2 px-4 py-2 rounded-full border border-green-500/25 bg-green-600/10 text-sm text-[--text-primary] backdrop-blur-sm w-fit mx-auto"
+          className="relative inline-flex items-center gap-2 px-4 py-2 rounded-full border border-green-500/25 bg-green-600/10 text-sm text-[--text-primary] backdrop-blur-sm w-fit"
           style={{
             animation: "badge-glow-pulse 3s ease-in-out infinite",
           }}
@@ -197,7 +197,7 @@ export function Hero() {
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[--text-primary] leading-[1.1]"
+          className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[--text-primary] leading-[1.1] text-center"
         >
           Hey, I&apos;m{" "}
           <span
@@ -215,7 +215,7 @@ export function Hero() {
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          className="text-base sm:text-lg text-[--text-secondary]"
+          className="text-base sm:text-lg text-[--text-secondary] text-center"
         >
           AI Automation Specialist &bull; Pampanga, PH
         </motion.p>
@@ -225,7 +225,7 @@ export function Hero() {
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          className="text-sm sm:text-base text-[--text-muted] max-w-lg leading-relaxed"
+          className="text-sm sm:text-base text-[--text-muted] max-w-lg leading-relaxed text-center"
         >
           I help businesses save time and scale faster through smart automation
           and AI-powered solutions.
