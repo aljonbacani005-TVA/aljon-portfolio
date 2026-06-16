@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef } from "react";
 
 const DIR_1 = "/Avatar_frames";
 const DIR_2 = "/Avatar_frames_2";
@@ -49,52 +49,48 @@ export const Avatar = memo(function Avatar() {
   const lastDirRef = useRef<1 | 2>(1);
   const needsRenderRef = useRef(true);
   const startLoopRef = useRef<() => void>(() => {});
-  const [loaded, setLoaded] = useState(false);
+  const initTimeRef = useRef(Date.now());
 
-  // Priority preload center frames from both dirs
+  // Preload only center frames — minimal HTTP requests on mount
   useEffect(() => {
-    let mounted = true;
-    let count = 0;
-    const needed = 6; // Show avatar once 6 center frames are ready
-
-    // Load center ± 30 frames from both directories
-    const centerFrame = 60;
-    const radius = 30;
-
-    const onLoad = () => {
-      count++;
-      if (count >= needed && mounted) setLoaded(true);
-    };
-
-    for (let offset = 0; offset <= radius; offset++) {
-      const f1 = centerFrame + offset;
-      const f2 = centerFrame - offset;
+    for (let offset = 0; offset <= 5; offset++) {
+      const f1 = 60 + offset;
+      const f2 = 60 - offset;
       if (f1 < FRAME_COUNT) {
-        const img1a = ensureImage(1, f1);
-        const img1b = ensureImage(2, f1);
-        if (img1a.complete) onLoad();
-        else img1a.addEventListener("load", onLoad, { once: true });
-        if (img1b.complete) onLoad();
-        else img1b.addEventListener("load", onLoad, { once: true });
+        ensureImage(1, f1);
+        ensureImage(2, f1);
       }
       if (offset > 0 && f2 >= 0) {
-        const img2a = ensureImage(1, f2);
-        const img2b = ensureImage(2, f2);
-        if (img2a.complete) onLoad();
-        else img2a.addEventListener("load", onLoad, { once: true });
-        if (img2b.complete) onLoad();
-        else img2b.addEventListener("load", onLoad, { once: true });
+        ensureImage(1, f2);
+        ensureImage(2, f2);
       }
     }
 
-    const fallback = setTimeout(() => {
-      if (mounted) setLoaded(true);
-    }, 3000);
-
-    return () => {
-      mounted = false;
-      clearTimeout(fallback);
+    // Draw center frame as soon as it loads — no waiting for loop
+    const drawCenter = () => {
+      const canvas = canvasRef.current;
+      const img = imageCache[getCacheIndex(1, 60)];
+      if (canvas && img && img.complete && img.naturalWidth > 0) {
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        }
+      }
     };
+
+    const img60 = ensureImage(1, 60);
+    if (img60.complete) {
+      drawCenter();
+    } else {
+      img60.addEventListener("load", () => {
+        drawCenter();
+        // Force animation loop to redraw this frame
+        lastFrameRef.current = -1;
+        needsRenderRef.current = true;
+        startLoopRef.current();
+      }, { once: true });
+    }
   }, []);
 
   // Mouse tracking — passive, no React state, no re-renders
@@ -170,10 +166,14 @@ export const Avatar = memo(function Avatar() {
 
       needsRenderRef.current = false;
 
+      // Keep loop alive for first 3s so avatar animates on initial load
+      const elapsed = Date.now() - initTimeRef.current;
+      const warmup = elapsed < 3000;
+
       // Stop loop if converged and no new input
       const converged =
         Math.abs(dx) < 0.0005 && Math.abs(dy) < 0.0005;
-      if (converged && !needsRenderRef.current) {
+      if (converged && !needsRenderRef.current && !warmup) {
         rafRef.current = null;
         return;
       }
@@ -197,19 +197,6 @@ export const Avatar = memo(function Avatar() {
     };
   }, []);
 
-  // Draw initial center frame once loaded
-  useEffect(() => {
-    if (!loaded) return;
-    const canvas = canvasRef.current;
-    const img = imageCache[getCacheIndex(1, 60)];
-    if (canvas && img && img.complete && img.naturalWidth > 0) {
-      const ctx = canvas.getContext("2d");
-      if (ctx) {
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      }
-    }
-  }, [loaded]);
-
   return (
     <div className="relative" style={{ willChange: "transform" }}>
       {/* Spotlight glow — static blur, opacity-only animation (GPU composited) */}
@@ -229,10 +216,6 @@ export const Avatar = memo(function Avatar() {
             width={422}
             height={352}
             className="w-full h-full select-none"
-            style={{
-              opacity: loaded ? 1 : 0,
-              transition: "opacity 0.3s ease",
-            }}
           />
         </div>
       </div>

@@ -111,6 +111,55 @@ html[data-theme="light"] .aurora::after {
   background-size: 60px 60px;
 }
 
+/* ===== Cursor blink ===== */
+@keyframes cursor-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.chatbox-cursor::after {
+  content: "|";
+  display: inline-block;
+  color: var(--color-primary-400);
+  animation: cursor-blink 1s step-end infinite;
+  margin-left: 1px;
+  font-weight: 300;
+}
+
+/* ===== Badge glow pulse ===== */
+@keyframes badge-glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.3), 0 0 20px rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(34, 197, 94, 0.5), 0 0 40px rgba(34, 197, 94, 0.2);
+    border-color: rgba(34, 197, 94, 0.45);
+  }
+}
+
+/* ===== Grid parallax ===== */
+.bg-grid-parallax {
+  transition: background-position 0.3s ease-out;
+}
+
+/* ===== Particle float — CSS-only, no JS overhead ===== */
+@keyframes particle-float {
+  0%, 100% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translateY(var(--anim-y, -30px)) translateX(var(--drift, 0px)) scale(1.4);
+    opacity: 0.55;
+  }
+}
+
+.particle-float {
+  animation: particle-float ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
 /* ===== Aurora glow ===== */
 .aurora {
   position: fixed;
@@ -250,6 +299,27 @@ html[data-theme="light"] .aurora::after {
 @keyframes avatar-ring-glow {
   0%, 100% { opacity: 0.5; }
   50% { opacity: 1; }
+}
+
+/* ===== Portrait float & fade-in ===== */
+.portrait-float {
+  animation: portrait-y 8s ease-in-out infinite;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+@keyframes portrait-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.portrait-fade-in {
+  animation: portrait-y 8s ease-in-out infinite, portrait-in 0.6s ease-out both;
+}
+
+@keyframes portrait-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes float {

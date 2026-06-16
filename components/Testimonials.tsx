@@ -24,11 +24,6 @@ const features = [
 export function Testimonials() {
   return (
     <section className="relative py-24 px-6">
-      {/* Background glow */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-primary-600/8 blur-[120px] rounded-full" />
-      </div>
-
       <div className="max-w-6xl mx-auto relative">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

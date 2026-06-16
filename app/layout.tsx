@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { MouseEffects } from "@/components/MouseEffects";
+import { GlobalBackground } from "@/components/GlobalBackground";
 import "./globals.css";
 
 const inter = Inter({
@@ -57,9 +58,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <MouseEffects />
-        <div className="spotlight" />
-        <div className="aurora" />
-        <div className="noise" />
+        <GlobalBackground />
         {children}
       </body>
     </html>
