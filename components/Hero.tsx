@@ -10,8 +10,6 @@ import {
   Wrench,
   Heart,
   Loader2,
-  Sun,
-  Moon,
 } from "lucide-react";
 import { PortraitVideo } from "@/components/PortraitVideo";
 import { useCalendly } from "@/lib/useCalendly";
@@ -85,14 +83,9 @@ export function Hero() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isStreaming, setIsStreaming] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
   const { openCalendly } = useCalendly();
   const bottomRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -176,27 +169,16 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6 pt-24 pb-16 overflow-hidden">
-      {/* Theme toggle */}
-        <motion.button
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3 }}
-        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-        className="fixed top-6 right-6 w-10 h-10 rounded-full border-glow bg-[--surface] backdrop-blur-md flex items-center justify-center text-[--text-muted] hover:text-[--text-primary] hover:bg-primary-600/10 transition-all duration-200 hover:scale-110 cursor-pointer"
-        style={{ zIndex: 9999 }}
-      >
-        {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-      </motion.button>
 
       <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-[55%_45%] gap-8 lg:gap-16 items-center">
         {/* LEFT COLUMN — Content */}
-        <div className="flex flex-col items-center gap-5 order-1">
+        <div className="flex flex-col gap-5 order-1">
         {/* Badge with animated glow pulse */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          className="relative inline-flex items-center gap-2 px-4 py-2 rounded-full border border-green-500/25 bg-green-600/10 text-sm text-[--text-primary] backdrop-blur-sm w-fit"
+          className="relative inline-flex items-center gap-2 px-4 py-2 rounded-full border border-green-500/25 bg-green-600/10 text-sm text-[--text-primary] backdrop-blur-sm w-fit mx-auto"
           style={{
             animation: "badge-glow-pulse 3s ease-in-out infinite",
           }}
