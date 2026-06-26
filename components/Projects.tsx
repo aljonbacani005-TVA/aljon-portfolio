@@ -85,13 +85,7 @@ const platforms: PlatformSection[] = [
         tags: ["Zapier", "CRM", "AI", "Lead Generation"],
         image: "/projects/lead-enrichment.png",
       },
-      {
-        title: "Automated Blog Publishing Workflow",
-        category: "Content Automation",
-        desc: "Created a workflow that automatically generates blog content and publishes it to Facebook pages, reducing manual work and increasing content distribution.",
-        tags: ["Zapier", "OpenAI", "Facebook"],
-        image: "/projects/automated-blog-publishing.png",
-      },
+
     ],
   },
   {
